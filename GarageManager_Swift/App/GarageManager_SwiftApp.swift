@@ -8,3 +8,7 @@ struct GarageManager_SwiftApp: App {
         }
     }
 }
+
+#Preview {
+    MainTabView()
+}
