@@ -17,8 +17,6 @@
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		733E465A308917EE009009A5 /* GarageManager_Swift */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			exceptions = (
-			);
 			path = GarageManager_Swift;
 			sourceTree = "<group>";
 		};
