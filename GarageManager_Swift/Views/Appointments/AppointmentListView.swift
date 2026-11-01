@@ -9,7 +9,49 @@ public struct AppointmentListView: View {
     public var body: some View {
         NavigationStack {
             VStack(spacing: 0) {
-                // Filter Segment
+                
+                // MARK: - 1. HEADER CỐ ĐỊNH (Không nằm trong ScrollView)
+                HStack(alignment: .center, spacing: 8) {
+                    // Nút Back
+                    Button {
+                        // Action: Quay lại màn hình trước
+                    } label: {
+                        HStack(spacing: 4) {
+                            Image(systemName: "chevron.left")
+                            Text("Trang chủ")
+                        }
+                        .font(.subheadline)
+                        .foregroundStyle(.blue)
+                    }
+
+                    Spacer()
+
+                    // Tiêu đề căn giữa
+                    Text("Quản Lý Lịch Hẹn")
+                        .font(.system(size: 17, weight: .bold))
+                        .foregroundColor(Color(red: 10/255, green: 25/255, blue: 50/255))
+                        .lineLimit(1)
+                        .minimumScaleFactor(0.8)
+
+                    Spacer()
+
+                    // Nút Thêm (+)
+                    Button {
+                        showingAddSheet = true
+                        print("+")
+                    } label: {
+                        Image(systemName: "plus.circle.fill")
+                            .font(.system(size: 26))
+                            .foregroundStyle(.blue)
+                    }
+                }
+                .padding(.horizontal, 16)
+                .padding(.vertical, 12)
+                .background(Color(.secondarySystemGroupedBackground))
+                
+                Divider() // Ngăn cách nhẹ giữa Header và danh mục
+
+                // MARK: - 2. THANH LỌC DANH MỤC (Cuộn ngang)
                 ScrollView(.horizontal, showsIndicators: false) {
                     HStack(spacing: 8) {
                         FilterChip(
@@ -28,12 +70,12 @@ public struct AppointmentListView: View {
                             }
                         }
                     }
-                    .padding(.horizontal)
+                    .padding(.horizontal, 16)
                     .padding(.vertical, 10)
                 }
                 .background(Color(.secondarySystemGroupedBackground))
                 
-                // List of Appointments
+                // MARK: - 3. DANH SÁCH LỊCH HẸN (Cuộn dọc)
                 ScrollView {
                     LazyVStack(spacing: 12) {
                         ForEach(viewModel.filteredAppointments) { appointment in
@@ -44,16 +86,6 @@ public struct AppointmentListView: View {
                 }
             }
             .background(Color(.systemGroupedBackground))
-            .navigationTitle("Lịch Hẹn Xe")
-            .toolbar {
-                ToolbarItem(placement: .primaryAction) {
-                    Button {
-                        showingAddSheet = true
-                    } label: {
-                        Image(systemName: "plus")
-                    }
-                }
-            }
             .refreshable {
                 await viewModel.fetchAppointments()
             }
@@ -80,7 +112,6 @@ private struct FilterChip: View {
         .buttonStyle(.plain)
     }
 }
-
 #Preview {
     AppointmentListView()
 }

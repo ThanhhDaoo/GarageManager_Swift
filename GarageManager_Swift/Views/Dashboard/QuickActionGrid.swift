@@ -12,14 +12,14 @@ public struct QuickActionGrid: View {
     public var onSelectAction: ((String) -> Void)?
     
     private let actions: [QuickActionItem] = [
-        QuickActionItem(title: "Tiếp nhận xe", icon: "car.fill", color: .blue, actionTag: "new_reception"),
-        QuickActionItem(title: "Lập lệnh SC", icon: "wrench.and.screwdriver.fill", color: .indigo, actionTag: "new_order"),
-        QuickActionItem(title: "Báo hỏng đồ", icon: "exclamationmark.triangle.fill", color: .red, actionTag: "report_tool"),
-        QuickActionItem(title: "Kho phụ tùng", icon: "shippingbox.fill", color: .orange, actionTag: "inventory"),
-        QuickActionItem(title: "Đội ngũ thợ", icon: "person.3.fill", color: .teal, actionTag: "technicians"),
-        QuickActionItem(title: "Bảng giá DV", icon: "list.clipboard.fill", color: .purple, actionTag: "services"),
-        QuickActionItem(title: "Ghi chi phí", icon: "tray.and.arrow.down.fill", color: .pink, actionTag: "expense"),
-        QuickActionItem(title: "Báo cáo ngày", icon: "chart.bar.xaxis", color: .green, actionTag: "report")
+        QuickActionItem(title: "Lịch Hẹn", icon: "calendar.badge.clock", color: .blue, actionTag: "appointments"),
+        QuickActionItem(title: "Hoá Đơn", icon: "receipt.fill", color: .indigo, actionTag: "invoices"),
+        QuickActionItem(title: "Sản Phẩm", icon: "shippingbox.fill", color: .orange, actionTag: "products"),
+        QuickActionItem(title: "Dịch Vụ", icon: "gearshape.2.fill", color: .purple, actionTag: "services"),
+        QuickActionItem(title: "Dụng Cụ", icon: "wrench.and.screwdriver.fill", color: .teal, actionTag: "tools"),
+        QuickActionItem(title: "Nhân Sự", icon: "person.2.fill", color: .cyan, actionTag: "technicians"),
+        QuickActionItem(title: "Ghi Phí", icon: "tray.and.arrow.down.fill", color: .pink, actionTag: "expenses"),
+        QuickActionItem(title: "Báo Cáo", icon: "chart.bar.xaxis", color: .green, actionTag: "reports")
     ]
     
     private let columns = [

@@ -29,7 +29,7 @@ public struct MainTabView: View {
             
             InvoiceListView()
                 .tabItem {
-                    Label("Lệnh SC", systemImage: "wrench.and.screwdriver.fill")
+                    Label("Hoá đơn", systemImage: "receipt.fill")
                 }
                 .tag(TabItem.invoices)
             
