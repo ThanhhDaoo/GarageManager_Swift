@@ -1,6 +1,7 @@
 import SwiftUI
 
 public struct ProductListView: View {
+    @Environment(\.dismiss) private var dismiss
     @State private var products: [Product] = [
         Product(name: "Dầu nhớt động cơ Motul 5W30 4L", sku: "OIL-MT-5W30", category: "Dầu nhớt", unit: "Can", unitPrice: 850_000, stockQuantity: 18, minStockAlert: 5, location: "Kệ O-01"),
         Product(name: "Lọc dầu nhớt động cơ Toyota/Lexus", sku: "FLT-TY-01", category: "Lọc phụ tùng", unit: "Cái", unitPrice: 120_000, stockQuantity: 4, minStockAlert: 10, location: "Kệ F-02"),
@@ -28,11 +29,11 @@ public struct ProductListView: View {
     }
     
     public var body: some View {
-        NavigationStack {
+        VStack(spacing: 0) {
             HStack(alignment: .center, spacing: 8) {
                 // Nút Back
                 Button {
-                    // Action: Quay lại màn hình trước
+                    dismiss()
                 } label: {
                     HStack(spacing: 4) {
                         Image(systemName: "chevron.left")
@@ -44,7 +45,7 @@ public struct ProductListView: View {
                 }
 
                 Spacer()
-                Text("Quản Lý Hoá Đơn")
+                Text("Quản Lý Sản Phẩm")
                     .font(.system(size: 20, weight: .bold))
                     .foregroundColor(Color(red: 10/255, green: 25/255, blue: 50/255))
                     .lineLimit(1)
@@ -62,6 +63,10 @@ public struct ProductListView: View {
                         .offset(x: -10)
                 }
             }
+            .padding(.horizontal, 16)
+            .padding(.vertical, 12)
+            .background(Color(.secondarySystemGroupedBackground))
+            
             List {
                 if lowStockCount > 0 {
                     Section {
@@ -137,10 +142,13 @@ public struct ProductListView: View {
             }
             .searchable(text: $searchText, prompt: "Tìm theo tên hoặc mã SKU")
         }
+        .navigationBarBackButtonHidden(true)
+        .toolbar(.hidden, for: .navigationBar)
     }
 }
 
 #Preview {
-    ProductListView()
+    NavigationStack {
+        ProductListView()
+    }
 }
-

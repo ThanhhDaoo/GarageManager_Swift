@@ -10,8 +10,9 @@ public struct ServiceItem: Identifiable, Sendable {
 }
 
 public struct ServiceListView: View {
+    @Environment(\.dismiss) private var dismiss
     public init() {}
-    
+    @State private var showingAddSheet = false
     private let services: [ServiceItem] = [
         ServiceItem(name: "Gói Combo Bảo Dưỡng Cấp 40.000km", category: "Gói Combo", estimatedDuration: "3 giờ", price: 2_800_000, isCombo: true),
         ServiceItem(name: "Gói Combo Chăm Sóc & Vệ Sinh Khoang Máy", category: "Gói Combo", estimatedDuration: "1.5 giờ", price: 1_200_000, isCombo: true),
@@ -22,20 +23,60 @@ public struct ServiceListView: View {
     ]
     
     public var body: some View {
-        List {
-            Section("Gói dịch vụ Combo tiết kiệm") {
-                ForEach(services.filter { $0.isCombo }) { item in
-                    serviceRow(item)
+        VStack(spacing: 0) {
+            HStack(alignment: .center, spacing: 8) {
+                // Nút Back
+                Button {
+                    dismiss()
+                } label: {
+                    HStack(spacing: 4) {
+                        Image(systemName: "chevron.left")
+                        Text("Trang chủ")
+                    }
+                    .offset(x: 10)
+                    .font(.subheadline)
+                    .foregroundStyle(.blue)
+                }
+
+                Spacer()
+                Text("Quản Lý Gói Dịch Vụ")
+                    .font(.system(size: 20, weight: .bold))
+                    .foregroundColor(Color(red: 10/255, green: 25/255, blue: 50/255))
+                    .lineLimit(1)
+                    .offset(x: -10)
+                    .minimumScaleFactor(0.8)
+
+                Spacer()
+                Button {
+                    showingAddSheet = true
+                    print("+")
+                } label: {
+                    Image(systemName: "plus.circle.fill")
+                        .font(.system(size: 30))
+                        .foregroundStyle(.blue)
+                        .offset(x: -10)
                 }
             }
+            .padding(.horizontal, 16)
+            .padding(.vertical, 12)
+            .background(Color(.secondarySystemGroupedBackground))
             
-            Section("Dịch vụ lẻ") {
-                ForEach(services.filter { !$0.isCombo }) { item in
-                    serviceRow(item)
+            List {
+                Section("Gói dịch vụ Combo tiết kiệm") {
+                    ForEach(services.filter { $0.isCombo }) { item in
+                        serviceRow(item)
+                    }
+                }
+                
+                Section("Dịch vụ lẻ") {
+                    ForEach(services.filter { !$0.isCombo }) { item in
+                        serviceRow(item)
+                    }
                 }
             }
         }
-        .navigationTitle("Bảng Giá Dịch Vụ")
+        .navigationBarBackButtonHidden(true)
+        .toolbar(.hidden, for: .navigationBar)
     }
     
     @ViewBuilder
@@ -73,4 +114,3 @@ public struct ServiceListView: View {
         ServiceListView()
     }
 }
-

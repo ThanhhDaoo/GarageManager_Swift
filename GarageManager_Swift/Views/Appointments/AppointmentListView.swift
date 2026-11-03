@@ -80,6 +80,7 @@ public struct AppointmentListView: View {
                 }
             }
             .background(Color(.systemGroupedBackground))
+            .toolbar(.hidden, for: .navigationBar)
             .refreshable {
                 await viewModel.fetchAppointments()
             }

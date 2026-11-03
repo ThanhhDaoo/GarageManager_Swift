@@ -15,89 +15,93 @@ public struct ToolListView: View {
     
     public var body: some View {
         NavigationStack {
-            HStack(alignment: .center, spacing: 8) {
-                // Nút Back
-                Button {
-                    // Action: Quay lại màn hình trước
-                } label: {
-                    HStack(spacing: 4) {
-                        Image(systemName: "chevron.left")
-                        Text("Trang chủ")
-                    }
-                    .font(.subheadline)
-                    .foregroundStyle(.blue)
-                }
-
-                Spacer()
-                Text("Quản Lý Dụng Cụ")
-                    .font(.system(size: 17, weight: .bold))
-                    .foregroundColor(Color(red: 10/255, green: 25/255, blue: 50/255))
-                    .lineLimit(1)
-                    .minimumScaleFactor(0.8)
-
-                Spacer()
-                Button {
-                    showingAddSheet = true
-                    print("+")
-                } label: {
-                    Image(systemName: "plus.circle.fill")
-                        .font(.system(size: 26))
+            VStack(spacing: 0) {
+                HStack(alignment: .center, spacing: 8) {
+                    // Nút Back
+                    Button {
+                        // Action: Quay lại màn hình trước
+                    } label: {
+                        HStack(spacing: 4) {
+                            Image(systemName: "chevron.left")
+                            Text("Trang chủ")
+                        }
+                        .font(.subheadline)
                         .foregroundStyle(.blue)
-                }
-            }
-            .padding(.horizontal, 16)
-            .padding(.vertical, 12)
-            .background(Color(.secondarySystemGroupedBackground))
-            ScrollView {
-                VStack(spacing: 16) {
-                    // 4 Thẻ KPI
-                    LazyVGrid(columns: kpiColumns, spacing: 10) {
-                        MetricCard(
-                            title: "Tổng số",
-                            value: "\(viewModel.totalCount)",
-                            icon: "archivebox.fill",
-                            color: .blue
-                        )
-                        
-                        MetricCard(
-                            title: "Sẵn sàng",
-                            value: "\(viewModel.availableCount)",
-                            icon: "checkmark.circle.fill",
-                            color: .green
-                        )
-                        
-                        MetricCard(
-                            title: "Báo hỏng",
-                            value: "\(viewModel.brokenCount)",
-                            icon: "exclamationmark.triangle.fill",
-                            color: .red
-                        )
-                        
-                        MetricCard(
-                            title: "Đang dùng",
-                            value: "\(viewModel.inUseCount)",
-                            icon: "wrench.adjustable.fill",
-                            color: .orange
-                        )
                     }
-                    
-                    // Danh sách đồ nghề
-                    VStack(alignment: .leading, spacing: 12) {
-                        Text("Trang thiết bị & Dụng cụ")
-                            .font(.headline)
+
+                    Spacer()
+                    Text("Quản Lý Dụng Cụ")
+                        .font(.system(size: 17, weight: .bold))
+                        .foregroundColor(Color(red: 10/255, green: 25/255, blue: 50/255))
+                        .lineLimit(1)
+                        .minimumScaleFactor(0.8)
+
+                    Spacer()
+                    Button {
+                        showingAddSheet = true
+                        print("+")
+                    } label: {
+                        Image(systemName: "plus.circle.fill")
+                            .font(.system(size: 26))
+                            .foregroundStyle(.blue)
+                    }
+                }
+                .padding(.horizontal, 16)
+                .padding(.vertical, 12)
+                .background(Color(.secondarySystemGroupedBackground))
+                
+                ScrollView {
+                    VStack(spacing: 16) {
+                        // 4 Thẻ KPI
+                        LazyVGrid(columns: kpiColumns, spacing: 10) {
+                            MetricCard(
+                                title: "Tổng số",
+                                value: "\(viewModel.totalCount)",
+                                icon: "archivebox.fill",
+                                color: .blue
+                            )
+                            
+                            MetricCard(
+                                title: "Sẵn sàng",
+                                value: "\(viewModel.availableCount)",
+                                icon: "checkmark.circle.fill",
+                                color: .green
+                            )
+                            
+                            MetricCard(
+                                title: "Báo hỏng",
+                                value: "\(viewModel.brokenCount)",
+                                icon: "exclamationmark.triangle.fill",
+                                color: .red
+                            )
+                            
+                            MetricCard(
+                                title: "Đang dùng",
+                                value: "\(viewModel.inUseCount)",
+                                icon: "wrench.adjustable.fill",
+                                color: .orange
+                            )
+                        }
                         
-                        LazyVStack(spacing: 12) {
-                            ForEach(viewModel.tools) { tool in
-                                ToolCardView(tool: tool) {
-                                    reportingTool = tool
+                        // Danh sách đồ nghề
+                        VStack(alignment: .leading, spacing: 12) {
+                            Text("Trang thiết bị & Dụng cụ")
+                                .font(.headline)
+                            
+                            LazyVStack(spacing: 12) {
+                                ForEach(viewModel.tools) { tool in
+                                    ToolCardView(tool: tool) {
+                                        reportingTool = tool
+                                    }
                                 }
                             }
                         }
                     }
+                    .padding()
                 }
-                .padding()
+                .background(Color(.systemGroupedBackground))
             }
-            .background(Color(.systemGroupedBackground))
+            .toolbar(.hidden, for: .navigationBar)
             .sheet(item: $reportingTool) { tool in
                 DamageReportSheet(tool: tool) { count, reason in
                     Task {
@@ -115,4 +119,3 @@ public struct ToolListView: View {
 #Preview {
     ToolListView()
 }
-
