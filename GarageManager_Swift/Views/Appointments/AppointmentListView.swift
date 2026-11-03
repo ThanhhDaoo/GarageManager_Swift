@@ -9,8 +9,6 @@ public struct AppointmentListView: View {
     public var body: some View {
         NavigationStack {
             VStack(spacing: 0) {
-                
-                // MARK: - 1. HEADER CỐ ĐỊNH (Không nằm trong ScrollView)
                 HStack(alignment: .center, spacing: 8) {
                     // Nút Back
                     Button {
@@ -25,8 +23,6 @@ public struct AppointmentListView: View {
                     }
 
                     Spacer()
-
-                    // Tiêu đề căn giữa
                     Text("Quản Lý Lịch Hẹn")
                         .font(.system(size: 17, weight: .bold))
                         .foregroundColor(Color(red: 10/255, green: 25/255, blue: 50/255))
@@ -34,8 +30,6 @@ public struct AppointmentListView: View {
                         .minimumScaleFactor(0.8)
 
                     Spacer()
-
-                    // Nút Thêm (+)
                     Button {
                         showingAddSheet = true
                         print("+")

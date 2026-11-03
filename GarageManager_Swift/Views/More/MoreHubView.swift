@@ -2,9 +2,34 @@ import SwiftUI
 
 public struct MoreHubView: View {
     public init() {}
-    
+    @State private var showingAddSheet = false
     public var body: some View {
         NavigationStack {
+            HStack(alignment: .center, spacing: 8) {
+                // Nút Back
+                Button {
+                    // Action: Quay lại màn hình trước
+                } label: {
+                    HStack(spacing: 4) {
+                        Image(systemName: "chevron.left")
+                        Text("Trang chủ")
+                    }
+                    .font(.subheadline)
+                    .foregroundStyle(.blue)
+                }
+
+                Spacer()
+                Text("Quản Trị Thêm")
+                    .font(.system(size: 20, weight: .bold))
+                    .foregroundColor(Color(red: 10/255, green: 25/255, blue: 50/255))
+                    .lineLimit(1)
+                    .minimumScaleFactor(0.8)
+                    .offset(x: -20)// nhích sang trái
+                Spacer()
+            }
+            .padding(.horizontal, 20)
+            .padding(.vertical, 15)
+            .background(Color(.secondarySystemGroupedBackground))
             List {
                 Section("Nghiệp vụ Mở rộng") {
                     NavigationLink {
@@ -12,7 +37,7 @@ public struct MoreHubView: View {
                     } label: {
                         Label {
                             VStack(alignment: .leading) {
-                                Text("Kho Phụ Tùng")
+                                Text("Kho Sản Phẩm")
                                     .font(.body)
                                 Text("Quản lý tồn kho & cảnh báo nhập hàng")
                                     .font(.caption)
@@ -46,14 +71,14 @@ public struct MoreHubView: View {
                     } label: {
                         Label {
                             VStack(alignment: .leading) {
-                                Text("Đội Ngũ Thợ Máy")
+                                Text("Đội Ngũ Nhân Viên")
                                     .font(.body)
                                 Text("Phân ca, xếp việc & năng suất thợ")
                                     .font(.caption)
                                     .foregroundStyle(.secondary)
                             }
                         } icon: {
-                            Image(systemName: "person.3.fill")
+                            Image(systemName: "person.2.fill")
                                 .foregroundStyle(.teal)
                         }
                     }
@@ -63,7 +88,7 @@ public struct MoreHubView: View {
                     } label: {
                         Label {
                             VStack(alignment: .leading) {
-                                Text("Chi Phí & Sổ Quỹ")
+                                Text("Chi Phí & Báo Cáo")
                                     .font(.body)
                                 Text("Tiền thuê, điện nước, vật tư tiêu hao")
                                     .font(.caption)
@@ -75,19 +100,7 @@ public struct MoreHubView: View {
                         }
                     }
                 }
-                
-                Section("Hệ Thống & Đồng Bộ") {
-                    HStack {
-                        Label("Kết nối Supabase Cloud", systemImage: "cloud.fill")
-                            .foregroundStyle(.blue)
-                        Spacer()
-                        StatusBadge("Đang kết nối", color: .green)
-                    }
-                    
-                    LabeledContent("Phiên bản", value: "1.0.0 (Build 2026)")
-                }
             }
-            .navigationTitle("Quản Trị Tổng Hợp")
         }
     }
 }

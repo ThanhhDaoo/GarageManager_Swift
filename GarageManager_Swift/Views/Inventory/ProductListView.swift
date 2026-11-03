@@ -10,7 +10,7 @@ public struct ProductListView: View {
     ]
     @State private var searchText: String = ""
     @State private var filterOnlyLowStock: Bool = false
-    
+    @State private var showingAddSheet = false
     public init() {}
     
     private var filteredProducts: [Product] {
@@ -29,6 +29,39 @@ public struct ProductListView: View {
     
     public var body: some View {
         NavigationStack {
+            HStack(alignment: .center, spacing: 8) {
+                // Nút Back
+                Button {
+                    // Action: Quay lại màn hình trước
+                } label: {
+                    HStack(spacing: 4) {
+                        Image(systemName: "chevron.left")
+                        Text("Trang chủ")
+                    }
+                    .offset(x: 10)
+                    .font(.subheadline)
+                    .foregroundStyle(.blue)
+                }
+
+                Spacer()
+                Text("Quản Lý Hoá Đơn")
+                    .font(.system(size: 20, weight: .bold))
+                    .foregroundColor(Color(red: 10/255, green: 25/255, blue: 50/255))
+                    .lineLimit(1)
+                    .offset(x: -10)
+                    .minimumScaleFactor(0.8)
+
+                Spacer()
+                Button {
+                    showingAddSheet = true
+                    print("+")
+                } label: {
+                    Image(systemName: "plus.circle.fill")
+                        .font(.system(size: 30))
+                        .foregroundStyle(.blue)
+                        .offset(x: -10)
+                }
+            }
             List {
                 if lowStockCount > 0 {
                     Section {
@@ -103,7 +136,6 @@ public struct ProductListView: View {
                 }
             }
             .searchable(text: $searchText, prompt: "Tìm theo tên hoặc mã SKU")
-            .navigationTitle("Kho Phụ Tùng")
         }
     }
 }
