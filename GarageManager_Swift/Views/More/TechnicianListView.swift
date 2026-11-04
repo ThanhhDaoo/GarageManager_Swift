@@ -2,61 +2,31 @@ import SwiftUI
 
 public struct TechnicianListView: View {
     @Environment(\.dismiss) private var dismiss
+    @State private var showingAddSheet = false
     @State private var technicians: [Technician] = [
         Technician(fullName: "Nguyễn Văn Tuấn", phone: "0912 345 678", role: "Thợ trưởng", specialty: "Máy - Gầm - Điện động cơ", status: .busy, activeOrdersCount: 2, rating: 4.9),
         Technician(fullName: "Trần Văn Bình", phone: "0923 456 789", role: "Kỹ thuật viên", specialty: "Điện lạnh & Điều hòa", status: .busy, activeOrdersCount: 1, rating: 4.8),
         Technician(fullName: "Lê Hoàng Nam", phone: "0934 567 890", role: "Kỹ thuật viên", specialty: "Bảo dưỡng định kỳ & Lốp", status: .available, activeOrdersCount: 0, rating: 4.7),
         Technician(fullName: "Hoàng Minh Đức", phone: "0945 678 901", role: "Học việc", specialty: "Rửa xe & Vệ sinh khoang máy", status: .offDuty, activeOrdersCount: 0, rating: 4.5)
     ]
-    @State private var showingAddSheet = false
-    public init() {}
     
-    private func statusColor(for status: TechnicianStatus) -> Color {
-        switch status {
-        case .available: return .green
-        case .busy: return .orange
-        case .offDuty: return .gray
-        }
-    }
+    public init() {}
     
     public var body: some View {
         VStack(spacing: 0) {
-            HStack(alignment: .center, spacing: 8) {
-                // Nút Back
-                Button {
+            AppHeaderView(
+                title: "Quản Lý Nhân Sự",
+                backTitle: "Quản trị",
+                backAction: {
                     dismiss()
-                } label: {
-                    HStack(spacing: 4) {
-                        Image(systemName: "chevron.left")
-                        Text("Trang chủ")
-                    }
-                    .offset(x: 10)
-                    .font(.subheadline)
-                    .foregroundStyle(.blue)
-                }
-
-                Spacer()
-                Text("Quản Lý Nhân Sự")
-                    .font(.system(size: 20, weight: .bold))
-                    .foregroundColor(Color(red: 10/255, green: 25/255, blue: 50/255))
-                    .lineLimit(1)
-                    .offset(x: -10)
-                    .minimumScaleFactor(0.8)
-
-                Spacer()
-                Button {
+                },
+                trailingIcon: "plus.circle.fill",
+                trailingAction: {
                     showingAddSheet = true
-                    print("+")
-                } label: {
-                    Image(systemName: "plus.circle.fill")
-                        .font(.system(size: 30))
-                        .foregroundStyle(.blue)
-                        .offset(x: -10)
                 }
-            }
-            .padding(.horizontal, 16)
-            .padding(.vertical, 12)
-            .background(Color(.secondarySystemGroupedBackground))
+            )
+            
+            Divider()
             
             List {
                 ForEach(technicians) { tech in
@@ -72,7 +42,7 @@ public struct TechnicianListView: View {
                             
                             Spacer()
                             
-                            StatusBadge(tech.status.title, color: statusColor(for: tech.status))
+                            StatusBadge(tech.status.title, color: tech.status.color)
                         }
                         
                         HStack {

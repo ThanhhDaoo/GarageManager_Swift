@@ -1,4 +1,5 @@
 import Foundation
+import SwiftUI
 
 public enum AppointmentStatus: String, Codable, CaseIterable, Sendable {
     case pending = "pending"
@@ -14,6 +15,16 @@ public enum AppointmentStatus: String, Codable, CaseIterable, Sendable {
         case .inProgress: return "Đang xử lý"
         case .completed: return "Hoàn thành"
         case .cancelled: return "Đã hủy"
+        }
+    }
+    
+    public var color: Color {
+        switch self {
+        case .pending: return .orange
+        case .confirmed: return .blue
+        case .inProgress: return .purple
+        case .completed: return .green
+        case .cancelled: return .gray
         }
     }
 }
@@ -79,4 +90,3 @@ public struct Appointment: Identifiable, Codable, Hashable, Sendable {
         self.createdAt = createdAt
     }
 }
-

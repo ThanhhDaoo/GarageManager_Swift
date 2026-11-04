@@ -11,8 +11,10 @@ public struct ServiceItem: Identifiable, Sendable {
 
 public struct ServiceListView: View {
     @Environment(\.dismiss) private var dismiss
-    public init() {}
     @State private var showingAddSheet = false
+    
+    public init() {}
+    
     private let services: [ServiceItem] = [
         ServiceItem(name: "Gói Combo Bảo Dưỡng Cấp 40.000km", category: "Gói Combo", estimatedDuration: "3 giờ", price: 2_800_000, isCombo: true),
         ServiceItem(name: "Gói Combo Chăm Sóc & Vệ Sinh Khoang Máy", category: "Gói Combo", estimatedDuration: "1.5 giờ", price: 1_200_000, isCombo: true),
@@ -24,42 +26,19 @@ public struct ServiceListView: View {
     
     public var body: some View {
         VStack(spacing: 0) {
-            HStack(alignment: .center, spacing: 8) {
-                // Nút Back
-                Button {
+            AppHeaderView(
+                title: "Quản Lý Gói Dịch Vụ",
+                backTitle: "Quản trị",
+                backAction: {
                     dismiss()
-                } label: {
-                    HStack(spacing: 4) {
-                        Image(systemName: "chevron.left")
-                        Text("Trang chủ")
-                    }
-                    .offset(x: 10)
-                    .font(.subheadline)
-                    .foregroundStyle(.blue)
-                }
-
-                Spacer()
-                Text("Quản Lý Gói Dịch Vụ")
-                    .font(.system(size: 20, weight: .bold))
-                    .foregroundColor(Color(red: 10/255, green: 25/255, blue: 50/255))
-                    .lineLimit(1)
-                    .offset(x: -10)
-                    .minimumScaleFactor(0.8)
-
-                Spacer()
-                Button {
+                },
+                trailingIcon: "plus.circle.fill",
+                trailingAction: {
                     showingAddSheet = true
-                    print("+")
-                } label: {
-                    Image(systemName: "plus.circle.fill")
-                        .font(.system(size: 30))
-                        .foregroundStyle(.blue)
-                        .offset(x: -10)
                 }
-            }
-            .padding(.horizontal, 16)
-            .padding(.vertical, 12)
-            .background(Color(.secondarySystemGroupedBackground))
+            )
+            
+            Divider()
             
             List {
                 Section("Gói dịch vụ Combo tiết kiệm") {
@@ -87,7 +66,7 @@ public struct ServiceListView: View {
                     .font(.subheadline)
                     .fontWeight(.semibold)
                 Spacer()
-                Text(String(format: "%.0f đ", item.price))
+                Text(item.price.formattedVND)
                     .font(.subheadline)
                     .fontWeight(.bold)
                     .foregroundStyle(.blue)

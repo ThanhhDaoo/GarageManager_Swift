@@ -1,9 +1,9 @@
 import SwiftUI
 
 public struct MainTabView: View {
-    @State private var selectedTab: TabItem = .dashboard
+    @State private var navigationState = AppNavigationState()
     
-    public enum TabItem: Int, Hashable {
+    public enum TabItem: Int, Hashable, CaseIterable {
         case dashboard = 0
         case appointments = 1
         case invoices = 2
@@ -14,7 +14,7 @@ public struct MainTabView: View {
     public init() {}
     
     public var body: some View {
-        TabView(selection: $selectedTab) {
+        TabView(selection: $navigationState.selectedTab) {
             DashboardView()
                 .tabItem {
                     Label("Tổng quan", systemImage: "gauge.with.dots.needle.bottom.50percent")
@@ -46,10 +46,10 @@ public struct MainTabView: View {
                 .tag(TabItem.more)
         }
         .tint(.blue)
+        .environment(navigationState)
     }
 }
 
 #Preview {
     MainTabView()
 }
-

@@ -1,4 +1,5 @@
 import Foundation
+import SwiftUI
 
 public enum TechnicianStatus: String, Codable, CaseIterable, Sendable {
     case available = "available"
@@ -10,6 +11,14 @@ public enum TechnicianStatus: String, Codable, CaseIterable, Sendable {
         case .available: return "Sẵn sàng"
         case .busy: return "Đang bận"
         case .offDuty: return "Nghỉ ca"
+        }
+    }
+    
+    public var color: Color {
+        switch self {
+        case .available: return .green
+        case .busy: return .orange
+        case .offDuty: return .gray
         }
     }
 }
@@ -59,4 +68,3 @@ public struct Technician: Identifiable, Codable, Hashable, Sendable {
         self.createdAt = createdAt
     }
 }
-

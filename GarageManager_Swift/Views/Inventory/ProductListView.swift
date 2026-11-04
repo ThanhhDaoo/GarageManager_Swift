@@ -12,6 +12,7 @@ public struct ProductListView: View {
     @State private var searchText: String = ""
     @State private var filterOnlyLowStock: Bool = false
     @State private var showingAddSheet = false
+    
     public init() {}
     
     private var filteredProducts: [Product] {
@@ -30,42 +31,19 @@ public struct ProductListView: View {
     
     public var body: some View {
         VStack(spacing: 0) {
-            HStack(alignment: .center, spacing: 8) {
-                // Nút Back
-                Button {
+            AppHeaderView(
+                title: "Quản Lý Sản Phẩm",
+                backTitle: "Quản trị",
+                backAction: {
                     dismiss()
-                } label: {
-                    HStack(spacing: 4) {
-                        Image(systemName: "chevron.left")
-                        Text("Trang chủ")
-                    }
-                    .offset(x: 10)
-                    .font(.subheadline)
-                    .foregroundStyle(.blue)
-                }
-
-                Spacer()
-                Text("Quản Lý Sản Phẩm")
-                    .font(.system(size: 20, weight: .bold))
-                    .foregroundColor(Color(red: 10/255, green: 25/255, blue: 50/255))
-                    .lineLimit(1)
-                    .offset(x: -10)
-                    .minimumScaleFactor(0.8)
-
-                Spacer()
-                Button {
+                },
+                trailingIcon: "plus.circle.fill",
+                trailingAction: {
                     showingAddSheet = true
-                    print("+")
-                } label: {
-                    Image(systemName: "plus.circle.fill")
-                        .font(.system(size: 30))
-                        .foregroundStyle(.blue)
-                        .offset(x: -10)
                 }
-            }
-            .padding(.horizontal, 16)
-            .padding(.vertical, 12)
-            .background(Color(.secondarySystemGroupedBackground))
+            )
+            
+            Divider()
             
             List {
                 if lowStockCount > 0 {
@@ -101,7 +79,7 @@ public struct ProductListView: View {
                                     .font(.subheadline)
                                     .fontWeight(.semibold)
                                 Spacer()
-                                Text(String(format: "%.0f đ", item.unitPrice))
+                                Text(item.unitPrice.formattedVND)
                                     .font(.subheadline)
                                     .fontWeight(.bold)
                                     .foregroundStyle(.blue)

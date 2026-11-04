@@ -27,14 +27,14 @@ public struct InvoiceDetailView: View {
                 HStack {
                     Label("Tiền công thợ máy", systemImage: "wrench.adjustable")
                     Spacer()
-                    Text(String(format: "%.0f đ", order.laborCost))
+                    Text(order.laborCost.formattedVND)
                         .fontWeight(.semibold)
                 }
                 
                 HStack {
                     Label("Tiền linh kiện, phụ tùng", systemImage: "shippingbox")
                     Spacer()
-                    Text(String(format: "%.0f đ", order.partsCost))
+                    Text(order.partsCost.formattedVND)
                         .fontWeight(.semibold)
                 }
                 
@@ -42,7 +42,7 @@ public struct InvoiceDetailView: View {
                     HStack {
                         Label("Chiết khấu / Giảm giá", systemImage: "tag")
                         Spacer()
-                        Text(String(format: "-%.0f đ", order.discount))
+                        Text("-\(order.discount.formattedVND)")
                             .foregroundStyle(.red)
                     }
                 }
@@ -51,7 +51,7 @@ public struct InvoiceDetailView: View {
                     Text("Tổng cộng")
                         .font(.headline)
                     Spacer()
-                    Text(String(format: "%.0f đ", order.totalAmount))
+                    Text(order.totalAmount.formattedVND)
                         .font(.headline)
                         .foregroundStyle(.blue)
                 }
@@ -90,4 +90,3 @@ public struct InvoiceDetailView: View {
         )
     }
 }
-

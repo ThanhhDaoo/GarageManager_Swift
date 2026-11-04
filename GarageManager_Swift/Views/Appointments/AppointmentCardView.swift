@@ -7,16 +7,6 @@ public struct AppointmentCardView: View {
         self.appointment = appointment
     }
     
-    private var statusColor: Color {
-        switch appointment.status {
-        case .pending: return .orange
-        case .confirmed: return .blue
-        case .inProgress: return .purple
-        case .completed: return .green
-        case .cancelled: return .gray
-        }
-    }
-    
     public var body: some View {
         VStack(alignment: .leading, spacing: 10) {
             HStack {
@@ -34,7 +24,7 @@ public struct AppointmentCardView: View {
                 
                 Spacer()
                 
-                StatusBadge(appointment.status.title, color: statusColor)
+                StatusBadge(appointment.status.title, color: appointment.status.color)
             }
             
             Text(appointment.serviceDescription)
@@ -91,4 +81,3 @@ public struct AppointmentCardView: View {
     )
     .padding()
 }
-

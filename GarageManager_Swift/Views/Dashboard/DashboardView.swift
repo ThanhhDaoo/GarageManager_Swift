@@ -1,6 +1,7 @@
 import SwiftUI
 
 public struct DashboardView: View {
+    @Environment(AppNavigationState.self) private var navigationState: AppNavigationState?
     @State private var viewModel = DashboardViewModel()
     
     public init() {}
@@ -12,56 +13,58 @@ public struct DashboardView: View {
     
     public var body: some View {
         NavigationStack {
-            VStack (spacing: 0){
-                HStack (alignment: .center, spacing: 12){
+            VStack(spacing: 0) {
+                // Header thương hiệu của Garage
+                HStack(alignment: .center, spacing: 12) {
                     Text("AD")
                         .font(.system(size: 20, weight: .bold))
-                        .foregroundColor(.white)
+                        .foregroundStyle(.white)
                         .frame(width: 44, height: 44)
-                        .background(Color(red: 10/255, green: 25/255, blue: 255)) // Màu xanh đậm
-                        .cornerRadius(12)
+                        .background(Color.brandPrimary)
+                        .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
+                    
                     VStack(alignment: .leading, spacing: 4) {
-                        Text("MTPro Auto ")
+                        Text("MTPro Auto")
                             .font(.system(size: 18, weight: .bold))
-                            .foregroundColor(Color(red: 10/255, green: 25/255, blue: 50/255))
+                            .foregroundStyle(Color.brandNavy)
                                         
-                         HStack(spacing: 4) {
-                            // Chấm xanh trạng thái đang mở cửa
+                        HStack(spacing: 4) {
                             Circle()
                                 .fill(Color.green)
                                 .frame(width: 8, height: 8)
                             Text("Đang mở cửa • Ca sáng")
                                 .font(.system(size: 14, weight: .medium))
-                                .foregroundColor(.green)
+                                .foregroundStyle(.green)
                         }
                     }
+                    
                     Spacer()
-                    Button(action: {
-                        print("Bấm nút thông báo")
-                    }) {
+                    
+                    Button {
+                        // Mở danh sách thông báo
+                    } label: {
                         Image(systemName: "bell.fill")
                             .font(.system(size: 16))
-                            .foregroundColor(.orange) // Màu chuông vàng/cam
+                            .foregroundStyle(.orange)
                             .frame(width: 40, height: 40)
-                            .background(Color(.systemGray6)) // Nền xám nhạt tròn
+                            .background(Color(.systemGray6))
                             .clipShape(Circle())
                     }
                 }
                 .padding(.horizontal, 16)
                 .padding(.bottom, 12)
-                // Lấy khoảng trống tự động phía trên để tránh đè vào Dynamic Island/Pin/Sóng
-                .background(Color.white) // Màu nền của thanh header
-                // Đường kẻ mờ phân cách ở dưới cùng header (giống vệt xám mờ trong ảnh)
+                .background(Color(.secondarySystemGroupedBackground))
+                
                 Divider()
-
             }
+            
             ScrollView {
                 VStack(spacing: 16) {
                     // Header KPI Cards
                     LazyVGrid(columns: kpiColumns, spacing: 12) {
                         MetricCard(
                             title: "Doanh thu hôm nay",
-                            value: String(format: "%.0f đ", viewModel.todayRevenue),
+                            value: viewModel.todayRevenue.formattedVND,
                             icon: "banknote.fill",
                             color: .green,
                             subtitle: "+12% so với hôm qua"
@@ -94,7 +97,18 @@ public struct DashboardView: View {
                     
                     // 8 Quick Actions
                     QuickActionGrid { tag in
-                        // Xử lý chuyển tab hoặc mở modal tương ứng
+                        switch tag {
+                        case "appointments":
+                            navigationState?.selectedTab = .appointments
+                        case "invoices":
+                            navigationState?.selectedTab = .invoices
+                        case "tools":
+                            navigationState?.selectedTab = .tools
+                        case "products", "services", "technicians", "expenses", "reports":
+                            navigationState?.selectedTab = .more
+                        default:
+                            break
+                        }
                     }
                     
                     // Khoang cầu nâng (Lift Bays)
@@ -116,6 +130,7 @@ public struct DashboardView: View {
                 .padding()
             }
             .background(Color(.systemGroupedBackground))
+            .toolbar(.hidden, for: .navigationBar)
             .refreshable {
                 await viewModel.fetchDashboardData()
             }
@@ -125,5 +140,5 @@ public struct DashboardView: View {
 
 #Preview {
     DashboardView()
+        .environment(AppNavigationState())
 }
-

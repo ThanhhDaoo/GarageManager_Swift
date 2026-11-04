@@ -1,6 +1,7 @@
 import SwiftUI
 
 public struct AppointmentListView: View {
+    @Environment(AppNavigationState.self) private var navigationState: AppNavigationState?
     @State private var viewModel = AppointmentViewModel()
     @State private var showingAddSheet = false
     
@@ -9,43 +10,22 @@ public struct AppointmentListView: View {
     public var body: some View {
         NavigationStack {
             VStack(spacing: 0) {
-                HStack(alignment: .center, spacing: 8) {
-                    // Nút Back
-                    Button {
-                        // Action: Quay lại màn hình trước
-                    } label: {
-                        HStack(spacing: 4) {
-                            Image(systemName: "chevron.left")
-                            Text("Trang chủ")
-                        }
-                        .font(.subheadline)
-                        .foregroundStyle(.blue)
-                    }
-
-                    Spacer()
-                    Text("Quản Lý Lịch Hẹn")
-                        .font(.system(size: 17, weight: .bold))
-                        .foregroundColor(Color(red: 10/255, green: 25/255, blue: 50/255))
-                        .lineLimit(1)
-                        .minimumScaleFactor(0.8)
-
-                    Spacer()
-                    Button {
+                // Header chuẩn dùng chung
+                AppHeaderView(
+                    title: "Quản Lý Lịch Hẹn",
+                    backTitle: "Trang chủ",
+                    backAction: {
+                        navigationState?.navigateToHome()
+                    },
+                    trailingIcon: "plus.circle.fill",
+                    trailingAction: {
                         showingAddSheet = true
-                        print("+")
-                    } label: {
-                        Image(systemName: "plus.circle.fill")
-                            .font(.system(size: 26))
-                            .foregroundStyle(.blue)
                     }
-                }
-                .padding(.horizontal, 16)
-                .padding(.vertical, 12)
-                .background(Color(.secondarySystemGroupedBackground))
+                )
                 
-                Divider() // Ngăn cách nhẹ giữa Header và danh mục
+                Divider()
 
-                // MARK: - 2. THANH LỌC DANH MỤC (Cuộn ngang)
+                // Thanh lọc danh mục theo trạng thái (cuộn ngang)
                 ScrollView(.horizontal, showsIndicators: false) {
                     HStack(spacing: 8) {
                         FilterChip(
@@ -69,7 +49,7 @@ public struct AppointmentListView: View {
                 }
                 .background(Color(.secondarySystemGroupedBackground))
                 
-                // MARK: - 3. DANH SÁCH LỊCH HẸN (Cuộn dọc)
+                // Danh sách lịch hẹn xe
                 ScrollView {
                     LazyVStack(spacing: 12) {
                         ForEach(viewModel.filteredAppointments) { appointment in
@@ -107,7 +87,8 @@ private struct FilterChip: View {
         .buttonStyle(.plain)
     }
 }
+
 #Preview {
     AppointmentListView()
+        .environment(AppNavigationState())
 }
-

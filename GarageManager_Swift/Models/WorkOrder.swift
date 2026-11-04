@@ -1,4 +1,5 @@
 import Foundation
+import SwiftUI
 
 public enum WorkOrderStatus: String, Codable, CaseIterable, Sendable {
     case received = "received"
@@ -16,6 +17,17 @@ public enum WorkOrderStatus: String, Codable, CaseIterable, Sendable {
         case .waitingParts: return "Chờ phụ tùng"
         case .completed: return "Đã xong"
         case .paid: return "Đã thanh toán"
+        }
+    }
+    
+    public var color: Color {
+        switch self {
+        case .received: return .blue
+        case .diagnosing: return .purple
+        case .repairing: return .orange
+        case .waitingParts: return .red
+        case .completed: return .teal
+        case .paid: return .green
         }
     }
 }
@@ -89,4 +101,3 @@ public struct WorkOrder: Identifiable, Codable, Hashable, Sendable {
         self.createdAt = createdAt
     }
 }
-

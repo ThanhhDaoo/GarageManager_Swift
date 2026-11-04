@@ -1,57 +1,28 @@
 import SwiftUI
 
 public struct InvoiceListView: View {
+    @Environment(AppNavigationState.self) private var navigationState: AppNavigationState?
     @State private var viewModel = InvoiceViewModel()
     @State private var showingAddSheet = false
-    public init() {}
     
-    private func statusColor(for status: WorkOrderStatus) -> Color {
-        switch status {
-        case .received: return .blue
-        case .diagnosing: return .purple
-        case .repairing: return .orange
-        case .waitingParts: return .red
-        case .completed: return .teal
-        case .paid: return .green
-        }
-    }
+    public init() {}
     
     public var body: some View {
         NavigationStack {
             VStack(spacing: 0) {
-                HStack(alignment: .center, spacing: 8) {
-                    // Nút Back
-                    Button {
-                        // Action: Quay lại màn hình trước
-                    } label: {
-                        HStack(spacing: 4) {
-                            Image(systemName: "chevron.left")
-                            Text("Trang chủ")
-                        }
-                        .font(.subheadline)
-                        .foregroundStyle(.blue)
-                    }
-
-                    Spacer()
-                    Text("Quản Lý Hoá Đơn")
-                        .font(.system(size: 17, weight: .bold))
-                        .foregroundColor(Color(red: 10/255, green: 25/255, blue: 50/255))
-                        .lineLimit(1)
-                        .minimumScaleFactor(0.8)
-
-                    Spacer()
-                    Button {
+                AppHeaderView(
+                    title: "Quản Lý Hoá Đơn",
+                    backTitle: "Trang chủ",
+                    backAction: {
+                        navigationState?.navigateToHome()
+                    },
+                    trailingIcon: "plus.circle.fill",
+                    trailingAction: {
                         showingAddSheet = true
-                        print("+")
-                    } label: {
-                        Image(systemName: "plus.circle.fill")
-                            .font(.system(size: 26))
-                            .foregroundStyle(.blue)
                     }
-                }
-                .padding(.horizontal, 16)
-                .padding(.vertical, 12)
-                .background(Color(.secondarySystemGroupedBackground))
+                )
+                
+                Divider()
                 
                 List {
                     ForEach(viewModel.filteredWorkOrders) { order in
@@ -66,7 +37,7 @@ public struct InvoiceListView: View {
                                     
                                     Spacer()
                                     
-                                    StatusBadge(order.status.title, color: statusColor(for: order.status))
+                                    StatusBadge(order.status.title, color: order.status.color)
                                 }
                                 
                                 HStack {
@@ -84,7 +55,7 @@ public struct InvoiceListView: View {
                                     
                                     Spacer()
                                     
-                                    Text(String(format: "%.0f đ", order.totalAmount))
+                                    Text(order.totalAmount.formattedVND)
                                         .font(.subheadline)
                                         .fontWeight(.bold)
                                         .foregroundStyle(.blue)
@@ -119,4 +90,5 @@ public struct InvoiceListView: View {
 
 #Preview {
     InvoiceListView()
+        .environment(AppNavigationState())
 }

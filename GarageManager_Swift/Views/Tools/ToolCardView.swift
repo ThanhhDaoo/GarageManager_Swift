@@ -9,15 +9,6 @@ public struct ToolCardView: View {
         self.onReportDamage = onReportDamage
     }
     
-    private var statusColor: Color {
-        switch tool.status {
-        case .available: return .green
-        case .inUse: return .blue
-        case .damaged: return .red
-        case .maintenance: return .orange
-        }
-    }
-    
     public var body: some View {
         VStack(alignment: .leading, spacing: 10) {
             HStack {
@@ -35,7 +26,7 @@ public struct ToolCardView: View {
                 
                 Spacer()
                 
-                StatusBadge(tool.status.title, color: statusColor)
+                StatusBadge(tool.status.title, color: tool.status.color)
             }
             
             Text(tool.name)
@@ -127,4 +118,3 @@ public struct ToolCardView: View {
     )
     .padding()
 }
-

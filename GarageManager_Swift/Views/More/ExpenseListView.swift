@@ -2,6 +2,7 @@ import SwiftUI
 
 public struct ExpenseListView: View {
     @Environment(\.dismiss) private var dismiss
+    @State private var showingAddSheet = false
     @State private var expenses: [Expense] = [
         Expense(title: "Tiền thuê mặt bằng xưởng", category: "Mặt bằng", amount: 25_000_000, isRecurring: true, notes: "Thanh toán đầu tháng qua chuyển khoản"),
         Expense(title: "Hóa đơn điện 3 pha gara", category: "Điện nước", amount: 6_450_000, isRecurring: false, notes: "Tháng này dùng nhiều máy nén khí"),
@@ -9,7 +10,7 @@ public struct ExpenseListView: View {
         Expense(title: "Mua giẻ lau & xà phòng công nghiệp", category: "Vật tư tiêu hao", amount: 850_000, isRecurring: false),
         Expense(title: "Bảo dưỡng định kỳ cầu nâng 2 trụ", category: "Bảo trì thiết bị", amount: 3_200_000, isRecurring: false, notes: "Thay phớt và dầu thủy lực cầu 1 & 2")
     ]
-    @State private var showingAddSheet = false
+    
     public init() {}
     
     private var totalMonthlyExpense: Double {
@@ -18,42 +19,19 @@ public struct ExpenseListView: View {
     
     public var body: some View {
         VStack(spacing: 0) {
-            HStack(alignment: .center, spacing: 8) {
-                // Nút Back
-                Button {
+            AppHeaderView(
+                title: "Chi Phí & Sổ Quỹ",
+                backTitle: "Quản trị",
+                backAction: {
                     dismiss()
-                } label: {
-                    HStack(spacing: 4) {
-                        Image(systemName: "chevron.left")
-                        Text("Trang chủ")
-                    }
-                    .offset(x: 10)
-                    .font(.subheadline)
-                    .foregroundStyle(.blue)
-                }
-
-                Spacer()
-                Text("Quản Lý Doanh Thu")
-                    .font(.system(size: 20, weight: .bold))
-                    .foregroundColor(Color(red: 10/255, green: 25/255, blue: 50/255))
-                    .lineLimit(1)
-                    .offset(x: -10)
-                    .minimumScaleFactor(0.8)
-
-                Spacer()
-                Button {
+                },
+                trailingIcon: "plus.circle.fill",
+                trailingAction: {
                     showingAddSheet = true
-                    print("+")
-                } label: {
-                    Image(systemName: "plus.circle.fill")
-                        .font(.system(size: 30))
-                        .foregroundStyle(.blue)
-                        .offset(x: -10)
                 }
-            }
-            .padding(.horizontal, 16)
-            .padding(.vertical, 12)
-            .background(Color(.secondarySystemGroupedBackground))
+            )
+            
+            Divider()
             
             List {
                 Section {
@@ -61,7 +39,7 @@ public struct ExpenseListView: View {
                         Text("Tổng chi phí tháng này")
                             .font(.caption)
                             .foregroundStyle(.secondary)
-                        Text(String(format: "%.0f đ", totalMonthlyExpense))
+                        Text(totalMonthlyExpense.formattedVND)
                             .font(.title2)
                             .fontWeight(.bold)
                             .foregroundStyle(.red)
@@ -77,7 +55,7 @@ public struct ExpenseListView: View {
                                     .font(.subheadline)
                                     .fontWeight(.semibold)
                                 Spacer()
-                                Text(String(format: "%.0f đ", expense.amount))
+                                Text(expense.amount.formattedVND)
                                     .font(.subheadline)
                                     .fontWeight(.bold)
                                     .foregroundStyle(.red)
