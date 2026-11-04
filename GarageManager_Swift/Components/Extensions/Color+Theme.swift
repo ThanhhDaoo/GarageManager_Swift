@@ -7,3 +7,4 @@ extension Color {
     /// Màu xanh thương hiệu nổi bật dùng cho avatar/accent
     public static let brandPrimary = Color(red: 10/255, green: 25/255, blue: 255/255)
 }
+
