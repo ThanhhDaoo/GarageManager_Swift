@@ -287,22 +287,9 @@ public struct LoginView: View {
                         }
                         .padding(.horizontal, 24)
                         
-                        Spacer(minLength: 36)
-                        
-                        // MARK: - FOOTER RÕ RÀNG
-                        VStack(spacing: 6) {
-                            Text("MTPRO AUTOMOTIVE • GARAGE WORKSPACE")
-                                .font(.system(size: 10, weight: .bold))
-                                .tracking(2)
-                                .foregroundStyle(Color.white.opacity(0.55))
-                            
-                            Text("PHIÊN BẢN 1.0.0 • BẢO MẬT BỞI SSL")
-                                .font(.system(size: 9, weight: .medium))
-                                .tracking(1.5)
-                                .foregroundStyle(Color.white.opacity(0.35))
-                        }
-                        .padding(.bottom, 20)
+                        Spacer(minLength: 24)
                     }
+                    .padding(.bottom, 24)
                 }
             }
             .toolbar(.hidden, for: .navigationBar)
