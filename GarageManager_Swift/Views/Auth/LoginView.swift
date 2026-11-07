@@ -15,22 +15,13 @@ public struct LoginView: View {
     public var body: some View {
         NavigationStack {
             ScrollView {
-                VStack(spacing: 28) {
-                    // MARK: - 1. LOGO & BRANDING HEADER
-                    VStack(spacing: 12) {
-                        ZStack {
-                            RoundedRectangle(cornerRadius: 22, style: .continuous)
-                                .fill(Color.brandPrimary)
-                                .frame(width: 80, height: 80)
-                                .shadow(color: Color.brandPrimary.opacity(0.35), radius: 12, x: 0, y: 6)
-                            
-                            Image(systemName: "wrench.and.screwdriver.fill")
-                                .font(.system(size: 36))
-                                .foregroundStyle(.white)
-                        }
-                        .padding(.top, 24)
+                VStack(spacing: 24) {
+                    // MARK: - 1. LOGO ĐỘNG & BRANDING HEADER
+                    VStack(spacing: 8) {
+                        AnimatedGarageLogo()
+                            .padding(.top, 8)
                         
-                        VStack(spacing: 6) {
+                        VStack(spacing: 4) {
                             Text("MTPro Auto")
                                 .font(.system(size: 26, weight: .bold))
                                 .foregroundStyle(Color.brandNavy)
@@ -122,7 +113,7 @@ public struct LoginView: View {
                         
                         // Remember Me & Forgot Password
                         HStack {
-                            Toggle("Ghi nhớ", isOn: $viewModel.rememberMe)
+                            Toggle("Ghi nhớ đăng nhập", isOn: $viewModel.rememberMe)
                                 .toggleStyle(CheckboxToggleStyle())
                                 .font(.footnote)
                                 .foregroundStyle(.secondary)
@@ -181,40 +172,9 @@ public struct LoginView: View {
                     .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
                     .shadow(color: Color.black.opacity(0.04), radius: 10, x: 0, y: 5)
                     
-                    // MARK: - 3. LỐI TẮT TÀI KHOẢN MẪU (DEMO QUICK FILL)
-                    VStack(spacing: 12) {
-                        HStack {
-                            VStack { Divider() }
-                            Text("HOẶC TRẢI NGHIỆM")
-                                .font(.caption2)
-                                .fontWeight(.semibold)
-                                .foregroundStyle(.tertiary)
-                            VStack { Divider() }
-                        }
-                        
-                        Button {
-                            viewModel.fillDemoCredentials()
-                            focusedField = nil
-                        } label: {
-                            HStack(spacing: 8) {
-                                Image(systemName: "sparkles")
-                                    .foregroundStyle(.orange)
-                                Text("Điền tài khoản Quản trị viên mẫu")
-                                    .font(.footnote)
-                                    .fontWeight(.medium)
-                            }
-                            .frame(maxWidth: .infinity)
-                            .padding(.vertical, 11)
-                            .background(Color.orange.opacity(0.1))
-                            .foregroundStyle(.orange)
-                            .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
-                        }
-                        .buttonStyle(.plain)
-                    }
+                    Spacer(minLength: 24)
                     
-                    Spacer(minLength: 20)
-                    
-                    // MARK: - 4. FOOTER
+                    // MARK: - 3. FOOTER
                     VStack(spacing: 4) {
                         HStack(spacing: 4) {
                             Image(systemName: "shield.checkmark.fill")

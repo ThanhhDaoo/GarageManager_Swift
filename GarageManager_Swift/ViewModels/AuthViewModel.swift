@@ -67,3 +67,4 @@ public final class AuthViewModel {
         try? await SupabaseManager.shared.client.auth.signOut()
     }
 }
+
