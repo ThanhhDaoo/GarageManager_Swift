@@ -99,6 +99,15 @@ public struct MoreHubView: View {
                         
                         LabeledContent("Phiên bản", value: "1.0.0 (Build 2026)")
                     }
+                    
+                    Section {
+                        Button(role: .destructive) {
+                            navigationState?.signOut()
+                        } label: {
+                            Label("Đăng xuất tài khoản", systemImage: "rectangle.portrait.and.arrow.right")
+                                .foregroundStyle(.red)
+                        }
+                    }
                 }
             }
             .toolbar(.hidden, for: .navigationBar)

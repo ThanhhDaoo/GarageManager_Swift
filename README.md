@@ -92,12 +92,16 @@ GarageManager_Swift/
 │   └── Expense.swift                      // Chi phí vận hành (bảng fixed_expenses)
 │
 ├── ViewModels/                            // Tầng nghiệp vụ xử lý logic (@Observable)
+│   ├── AuthViewModel.swift                // Xác thực đăng nhập, phiên người dùng Supabase
 │   ├── DashboardViewModel.swift           // Doanh thu ngày, trạng thái 4 khoang nâng
 │   ├── ToolViewModel.swift                // Kiểm kê dụng cụ, báo hỏng, đề xuất mua
 │   ├── AppointmentViewModel.swift         // Tiếp nhận đặt hẹn, lọc trạng thái, gán thợ
 │   └── InvoiceViewModel.swift             // Tính tiền công, phụ tùng, hóa đơn
 │
 ├── Views/                                 // Giao diện người dùng theo module
+│   ├── Auth/
+│   │   └── LoginView.swift                // Màn hình đăng nhập tài khoản
+│   │
 │   ├── Dashboard/
 │   │   ├── DashboardView.swift            // Màn hình trang chủ tổng quan
 │   │   ├── QuickActionGrid.swift          // Lưới lối tắt 8 module

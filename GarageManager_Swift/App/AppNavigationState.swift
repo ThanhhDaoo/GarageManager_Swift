@@ -1,15 +1,22 @@
 import SwiftUI
 import Observation
 
-/// Quản lý điều hướng toàn cục của ứng dụng (chuyển tab, điều hướng nhanh từ Dashboard)
+/// Quản lý điều hướng toàn cục và trạng thái phiên đăng nhập của ứng dụng
 @Observable
 public final class AppNavigationState {
     public var selectedTab: MainTabView.TabItem = .dashboard
+    public var isAuthenticated: Bool = false
     
-    public init() {}
+    public init(isAuthenticated: Bool = false) {
+        self.isAuthenticated = isAuthenticated
+    }
     
     public func navigateToHome() {
         selectedTab = .dashboard
     }
+    
+    public func signOut() {
+        isAuthenticated = false
+        selectedTab = .dashboard
+    }
 }
-
