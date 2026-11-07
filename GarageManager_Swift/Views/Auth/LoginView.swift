@@ -1,7 +1,9 @@
 import SwiftUI
 
+/// Màn hình đăng nhập phong cách Siêu Xe Điện Ảnh (Luxury Dark Cinematic)
+/// Thiết kế lấy cảm hứng từ Porsche, Tesla và Polestar: Nền Obsidian sâu thẳm,
+/// vệt sáng khí động học LED, trường nhập liệu kính tối không khung hộp, tương phản cao.
 public struct LoginView: View {
-    @Environment(\.colorScheme) private var colorScheme
     @Environment(AppNavigationState.self) private var navigationState: AppNavigationState?
     @State private var viewModel = AuthViewModel()
     @FocusState private var focusedField: Field?
@@ -16,66 +18,88 @@ public struct LoginView: View {
     public var body: some View {
         NavigationStack {
             ZStack {
-                // MARK: - 1. NỀN ĐỘNG TOÀN MÀN HÌNH (FULL-SCREEN AMBIENT MESH)
-                AnimatedBackgroundView()
+                // MARK: - 1. NỀN ĐIỆN ẢNH ĐEN OBSIDIAN & ÁNH SÁNG LED
+                CinematicBackgroundView()
                 
                 // MARK: - 2. NỘI DUNG ĐĂNG NHẬP
                 ScrollView(showsIndicators: false) {
-                    VStack(spacing: 28) {
-                        Spacer(minLength: 40)
+                    VStack(spacing: 36) {
+                        Spacer(minLength: 44)
                         
-                        // Header & Logo thương hiệu tối giản, chuyên nghiệp
-                        VStack(spacing: 12) {
-                            ZStack {
-                                RoundedRectangle(cornerRadius: 20, style: .continuous)
+                        // MARK: - BRAND HEADER (TYPOGRAPHY SIÊU XE)
+                        VStack(spacing: 14) {
+                            // Biểu tượng vệt sáng khí động học siêu xe
+                            HStack(spacing: 8) {
+                                Rectangle()
                                     .fill(
                                         LinearGradient(
-                                            colors: [
-                                                Color(red: 25/255, green: 90/255, blue: 245/255),
-                                                Color(red: 10/255, green: 50/255, blue: 190/255)
-                                            ],
-                                            startPoint: .topLeading,
-                                            endPoint: .bottomTrailing
+                                            colors: [.clear, Color.cyan.opacity(0.8)],
+                                            startPoint: .leading,
+                                            endPoint: .trailing
                                         )
                                     )
-                                    .frame(width: 68, height: 68)
-                                    .overlay(
-                                        RoundedRectangle(cornerRadius: 20, style: .continuous)
-                                            .stroke(Color.white.opacity(0.25), lineWidth: 1)
-                                    )
-                                    .shadow(color: Color.blue.opacity(0.3), radius: 14, x: 0, y: 7)
+                                    .frame(width: 32, height: 1.5)
                                 
-                                Image(systemName: "car.fill")
-                                    .font(.system(size: 30, weight: .semibold))
-                                    .foregroundStyle(.white)
+                                Image(systemName: "shield.righthalf.filled")
+                                    .font(.system(size: 18, weight: .medium))
+                                    .foregroundStyle(
+                                        LinearGradient(
+                                            colors: [.white, Color.cyan],
+                                            startPoint: .top,
+                                            endPoint: .bottom
+                                        )
+                                    )
+                                
+                                Rectangle()
+                                    .fill(
+                                        LinearGradient(
+                                            colors: [Color.cyan.opacity(0.8), .clear],
+                                            startPoint: .leading,
+                                            endPoint: .trailing
+                                        )
+                                    )
+                                    .frame(width: 32, height: 1.5)
                             }
                             
-                            VStack(spacing: 4) {
-                                Text("MTPro Auto")
-                                    .font(.system(size: 26, weight: .bold))
-                                    .foregroundStyle(colorScheme == .dark ? Color.white : Color.brandNavy)
+                            VStack(spacing: 6) {
+                                Text("M T P R O")
+                                    .font(.system(size: 30, weight: .black, design: .default))
+                                    .tracking(8)
+                                    .foregroundStyle(
+                                        LinearGradient(
+                                            colors: [.white, Color(white: 0.82)],
+                                            startPoint: .top,
+                                            endPoint: .bottom
+                                        )
+                                    )
+                                    .shadow(color: Color.white.opacity(0.2), radius: 10, x: 0, y: 0)
                                 
-                                Text("Hệ Thống Quản Lý Gara Ô Tô")
-                                    .font(.subheadline)
-                                    .foregroundStyle(.secondary)
+                                Text("PERFORMANCE GARAGE OS")
+                                    .font(.system(size: 10.5, weight: .semibold))
+                                    .tracking(4)
+                                    .foregroundStyle(Color.white.opacity(0.4))
                             }
                         }
+                        .padding(.top, 16)
                         
-                        // MARK: - 3. KHUNG FORM KÍNH MỜ (FROSTED GLASS CARD)
-                        VStack(spacing: 18) {
-                            // Email Field
-                            VStack(alignment: .leading, spacing: 6) {
-                                Text("Tài khoản / Email")
-                                    .font(.caption)
-                                    .fontWeight(.medium)
-                                    .foregroundStyle(.secondary)
+                        // MARK: - FORM NHẬP LIỆU (KÍNH TỐI KHÔNG KHUNG HỘP)
+                        VStack(spacing: 22) {
+                            // Trường Email / Tài khoản
+                            VStack(alignment: .leading, spacing: 8) {
+                                Text("TÀI KHOẢN HỆ THỐNG")
+                                    .font(.system(size: 10.5, weight: .semibold))
+                                    .tracking(1.5)
+                                    .foregroundStyle(Color.white.opacity(0.45))
                                 
-                                HStack(spacing: 12) {
-                                    Image(systemName: "envelope.fill")
-                                        .foregroundStyle(.blue)
+                                HStack(spacing: 14) {
+                                    Image(systemName: "envelope")
+                                        .font(.system(size: 15, weight: .light))
+                                        .foregroundStyle(focusedField == .email ? Color.cyan : Color.white.opacity(0.35))
                                         .frame(width: 20)
                                     
-                                    TextField("admin@mtpro.vn", text: $viewModel.email)
+                                    TextField("", text: $viewModel.email, prompt: Text("admin@mtpro.vn").foregroundStyle(Color.white.opacity(0.25)))
+                                        .font(.system(size: 15, weight: .regular))
+                                        .foregroundStyle(.white)
                                         .keyboardType(.emailAddress)
                                         .textInputAutocapitalization(.never)
                                         .autocorrectionDisabled(true)
@@ -85,35 +109,44 @@ public struct LoginView: View {
                                             focusedField = .password
                                         }
                                 }
-                                .padding(.horizontal, 14)
-                                .padding(.vertical, 13)
-                                .background(Color(.systemBackground).opacity(colorScheme == .dark ? 0.6 : 0.85))
-                                .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
+                                .padding(.horizontal, 16)
+                                .padding(.vertical, 15)
+                                .background(Color.white.opacity(0.04))
+                                .clipShape(RoundedRectangle(cornerRadius: 14, style: .continuous))
                                 .overlay(
-                                    RoundedRectangle(cornerRadius: 12, style: .continuous)
-                                        .stroke(focusedField == .email ? Color.blue : Color.white.opacity(0.15), lineWidth: 1.5)
+                                    RoundedRectangle(cornerRadius: 14, style: .continuous)
+                                        .stroke(
+                                            focusedField == .email
+                                                ? Color.cyan.opacity(0.8)
+                                                : Color.white.opacity(0.08),
+                                            lineWidth: focusedField == .email ? 1.2 : 0.8
+                                        )
                                 )
+                                .shadow(color: focusedField == .email ? Color.cyan.opacity(0.15) : .clear, radius: 8)
                             }
                             
-                            // Password Field
-                            VStack(alignment: .leading, spacing: 6) {
-                                Text("Mật khẩu")
-                                    .font(.caption)
-                                    .fontWeight(.medium)
-                                    .foregroundStyle(.secondary)
+                            // Trường Mật khẩu
+                            VStack(alignment: .leading, spacing: 8) {
+                                Text("MẬT KHẨU")
+                                    .font(.system(size: 10.5, weight: .semibold))
+                                    .tracking(1.5)
+                                    .foregroundStyle(Color.white.opacity(0.45))
                                 
-                                HStack(spacing: 12) {
-                                    Image(systemName: "lock.fill")
-                                        .foregroundStyle(.blue)
+                                HStack(spacing: 14) {
+                                    Image(systemName: "lock")
+                                        .font(.system(size: 15, weight: .light))
+                                        .foregroundStyle(focusedField == .password ? Color.cyan : Color.white.opacity(0.35))
                                         .frame(width: 20)
                                     
                                     Group {
                                         if viewModel.isPasswordVisible {
-                                            TextField("Nhập mật khẩu", text: $viewModel.password)
+                                            TextField("", text: $viewModel.password, prompt: Text("Nhập mật khẩu").foregroundStyle(Color.white.opacity(0.25)))
                                         } else {
-                                            SecureField("Nhập mật khẩu", text: $viewModel.password)
+                                            SecureField("", text: $viewModel.password, prompt: Text("Nhập mật khẩu").foregroundStyle(Color.white.opacity(0.25)))
                                         }
                                     }
+                                    .font(.system(size: 15, weight: .regular))
+                                    .foregroundStyle(.white)
                                     .textInputAutocapitalization(.never)
                                     .autocorrectionDisabled(true)
                                     .focused($focusedField, equals: .password)
@@ -125,108 +158,150 @@ public struct LoginView: View {
                                     Button {
                                         viewModel.isPasswordVisible.toggle()
                                     } label: {
-                                        Image(systemName: viewModel.isPasswordVisible ? "eye.slash.fill" : "eye.fill")
-                                            .font(.subheadline)
-                                            .foregroundStyle(.secondary)
+                                        Image(systemName: viewModel.isPasswordVisible ? "eye.slash" : "eye")
+                                            .font(.system(size: 14, weight: .light))
+                                            .foregroundStyle(Color.white.opacity(0.4))
                                     }
                                 }
-                                .padding(.horizontal, 14)
-                                .padding(.vertical, 13)
-                                .background(Color(.systemBackground).opacity(colorScheme == .dark ? 0.6 : 0.85))
-                                .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
+                                .padding(.horizontal, 16)
+                                .padding(.vertical, 15)
+                                .background(Color.white.opacity(0.04))
+                                .clipShape(RoundedRectangle(cornerRadius: 14, style: .continuous))
                                 .overlay(
-                                    RoundedRectangle(cornerRadius: 12, style: .continuous)
-                                        .stroke(focusedField == .password ? Color.blue : Color.white.opacity(0.15), lineWidth: 1.5)
+                                    RoundedRectangle(cornerRadius: 14, style: .continuous)
+                                        .stroke(
+                                            focusedField == .password
+                                                ? Color.cyan.opacity(0.8)
+                                                : Color.white.opacity(0.08),
+                                            lineWidth: focusedField == .password ? 1.2 : 0.8
+                                        )
                                 )
+                                .shadow(color: focusedField == .password ? Color.cyan.opacity(0.15) : .clear, radius: 8)
                             }
                             
-                            // Remember Me & Forgot Password
+                            // Ghi nhớ & Quên mật khẩu
                             HStack {
-                                Toggle("Ghi nhớ đăng nhập", isOn: $viewModel.rememberMe)
-                                    .toggleStyle(CheckboxToggleStyle())
-                                    .font(.footnote)
-                                    .foregroundStyle(.secondary)
+                                Button {
+                                    viewModel.rememberMe.toggle()
+                                } label: {
+                                    HStack(spacing: 8) {
+                                        Image(systemName: viewModel.rememberMe ? "checkmark.circle.fill" : "circle")
+                                            .font(.system(size: 14, weight: .light))
+                                            .foregroundStyle(viewModel.rememberMe ? Color.cyan : Color.white.opacity(0.3))
+                                        
+                                        Text("Ghi nhớ phiên đăng nhập")
+                                            .font(.system(size: 12.5))
+                                            .foregroundStyle(Color.white.opacity(0.6))
+                                    }
+                                }
+                                .buttonStyle(.plain)
                                 
                                 Spacer()
                                 
-                                Button("Quên mật khẩu?") {
-                                    // Action quên mật khẩu
+                                Button {
+                                    // Action khôi phục mật khẩu
+                                } label: {
+                                    Text("Quên mật khẩu?")
+                                        .font(.system(size: 12.5, weight: .medium))
+                                        .foregroundStyle(Color.white.opacity(0.45))
                                 }
-                                .font(.footnote)
-                                .foregroundStyle(.blue)
+                                .buttonStyle(.plain)
                             }
                             .padding(.horizontal, 2)
                             
-                            // Error Banner
+                            // Thông báo lỗi nếu có
                             if let error = viewModel.errorMessage {
-                                HStack(spacing: 8) {
-                                    Image(systemName: "exclamationmark.triangle.fill")
-                                        .foregroundStyle(.red)
+                                HStack(spacing: 10) {
+                                    Image(systemName: "exclamationmark.octagon.fill")
+                                        .font(.system(size: 14))
+                                        .foregroundStyle(Color(red: 255/255, green: 80/255, blue: 80/255))
                                     Text(error)
-                                        .font(.caption)
-                                        .foregroundStyle(.red)
+                                        .font(.system(size: 12.5))
+                                        .foregroundStyle(Color(red: 255/255, green: 200/255, blue: 200/255))
                                     Spacer()
                                 }
-                                .padding(10)
-                                .background(Color.red.opacity(0.12))
-                                .clipShape(RoundedRectangle(cornerRadius: 8))
+                                .padding(12)
+                                .background(Color(red: 255/255, green: 50/255, blue: 50/255).opacity(0.12))
+                                .clipShape(RoundedRectangle(cornerRadius: 10))
+                                .overlay(
+                                    RoundedRectangle(cornerRadius: 10)
+                                        .stroke(Color.red.opacity(0.3), lineWidth: 0.8)
+                                )
                             }
                             
-                            // Nút Đăng nhập
-                            Button {
-                                handleLogin()
-                            } label: {
-                                HStack(spacing: 8) {
-                                    if viewModel.isLoading {
-                                        ProgressView()
-                                            .tint(.white)
-                                    } else {
-                                        Text("Đăng Nhập")
-                                            .fontWeight(.semibold)
-                                        Image(systemName: "arrow.right")
+                            // MARK: - NÚT ĐĂNG NHẬP TƯƠNG PHẢN CAO (HIGH-CONTRAST PORSCHE CTA)
+                            HStack(spacing: 12) {
+                                Button {
+                                    handleLogin()
+                                } label: {
+                                    HStack(spacing: 10) {
+                                        if viewModel.isLoading {
+                                            ProgressView()
+                                                .tint(.black)
+                                        } else {
+                                            Text("ĐĂNG NHẬP")
+                                                .font(.system(size: 14, weight: .bold))
+                                                .tracking(2.5)
+                                                .foregroundStyle(.black)
+                                            
+                                            Image(systemName: "arrow.right")
+                                                .font(.system(size: 13, weight: .bold))
+                                                .foregroundStyle(.black)
+                                        }
                                     }
+                                    .frame(maxWidth: .infinity)
+                                    .padding(.vertical, 16)
+                                    .background(
+                                        viewModel.isFormValid
+                                            ? Color.white
+                                            : Color.white.opacity(0.3)
+                                    )
+                                    .clipShape(RoundedRectangle(cornerRadius: 14, style: .continuous))
+                                    .shadow(color: viewModel.isFormValid ? Color.white.opacity(0.25) : .clear, radius: 14, x: 0, y: 0)
                                 }
-                                .frame(maxWidth: .infinity)
-                                .padding(.vertical, 14)
-                                .background(viewModel.isFormValid ? Color.blue : Color.blue.opacity(0.5))
-                                .foregroundStyle(.white)
-                                .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
-                                .shadow(color: Color.blue.opacity(viewModel.isFormValid ? 0.3 : 0), radius: 8, x: 0, y: 4)
+                                .disabled(viewModel.isLoading || !viewModel.isFormValid)
+                                
+                                // Phím nhanh Face ID / Sinh trắc học
+                                Button {
+                                    // Xác thực sinh trắc học Face ID
+                                } label: {
+                                    Image(systemName: "faceid")
+                                        .font(.system(size: 20, weight: .light))
+                                        .foregroundStyle(Color.white.opacity(0.75))
+                                        .frame(width: 52, height: 52)
+                                        .background(Color.white.opacity(0.05))
+                                        .clipShape(RoundedRectangle(cornerRadius: 14, style: .continuous))
+                                        .overlay(
+                                            RoundedRectangle(cornerRadius: 14, style: .continuous)
+                                                .stroke(Color.white.opacity(0.12), lineWidth: 0.8)
+                                        )
+                                }
+                                .buttonStyle(.plain)
                             }
-                            .disabled(viewModel.isLoading || !viewModel.isFormValid)
-                            .padding(.top, 4)
+                            .padding(.top, 10)
                         }
-                        .padding(22)
-                        .background(.ultraThinMaterial)
-                        .clipShape(RoundedRectangle(cornerRadius: 24, style: .continuous))
-                        .overlay(
-                            RoundedRectangle(cornerRadius: 24, style: .continuous)
-                                .stroke(Color.white.opacity(colorScheme == .dark ? 0.18 : 0.6), lineWidth: 1)
-                        )
-                        .shadow(color: Color.black.opacity(colorScheme == .dark ? 0.35 : 0.06), radius: 20, x: 0, y: 10)
+                        .padding(.horizontal, 24)
                         
-                        Spacer(minLength: 28)
+                        Spacer(minLength: 40)
                         
-                        // MARK: - 4. FOOTER
-                        VStack(spacing: 4) {
-                            HStack(spacing: 4) {
-                                Image(systemName: "shield.checkmark.fill")
-                                    .font(.caption2)
-                                    .foregroundStyle(.green)
-                                Text("Bảo mật bởi Supabase PostgreSQL")
-                                    .font(.caption2)
-                                    .foregroundStyle(.secondary)
-                            }
-                            Text("Phiên bản 1.0.0 • MTPro Garage System")
-                                .font(.caption2)
-                                .foregroundStyle(.secondary.opacity(0.8))
+                        // MARK: - FOOTER TỐI GIẢN CHUẨN XUẤT XƯỞNG
+                        VStack(spacing: 6) {
+                            Text("MTPRO AUTOMOTIVE • GARAGE WORKSPACE")
+                                .font(.system(size: 9.5, weight: .medium))
+                                .tracking(2.5)
+                                .foregroundStyle(Color.white.opacity(0.25))
+                            
+                            Text("VERSION 1.0 • ENCRYPTED SESSION")
+                                .font(.system(size: 8.5))
+                                .tracking(1.8)
+                                .foregroundStyle(Color.white.opacity(0.15))
                         }
-                        .padding(.bottom, 20)
+                        .padding(.bottom, 24)
                     }
-                    .padding(.horizontal, 22)
                 }
             }
             .toolbar(.hidden, for: .navigationBar)
+            .preferredColorScheme(.dark)
             .onTapGesture {
                 focusedField = nil
             }
@@ -241,22 +316,6 @@ public struct LoginView: View {
                 navigationState?.isAuthenticated = true
             }
         }
-    }
-}
-
-/// Style tùy chỉnh cho Checkbox Toggle chuẩn iOS
-private struct CheckboxToggleStyle: ToggleStyle {
-    func makeBody(configuration: Configuration) -> some View {
-        Button {
-            configuration.isOn.toggle()
-        } label: {
-            HStack(spacing: 8) {
-                Image(systemName: configuration.isOn ? "checkmark.square.fill" : "square")
-                    .foregroundStyle(configuration.isOn ? .blue : .secondary)
-                configuration.label
-            }
-        }
-        .buttonStyle(.plain)
     }
 }
 
