@@ -21,64 +21,66 @@ public struct LoginView: View {
                 // MARK: - 1. NỀN ĐIỆN ẢNH MIDNIGHT & DẢI LED
                 CinematicBackgroundView()
                 
-                // MARK: - 2. NỘI DUNG ĐĂNG NHẬP
-                ScrollView(showsIndicators: false) {
-                    VStack(spacing: 32) {
-                        Spacer(minLength: 36)
-                        
-                        // MARK: - BRAND HEADER (TYPOGRAPHY SIÊU XE)
-                        VStack(spacing: 14) {
-                            // Biểu tượng vệt sáng khí động học siêu xe
-                            HStack(spacing: 10) {
-                                Rectangle()
-                                    .fill(
-                                        LinearGradient(
-                                            colors: [.clear, Color.cyan],
-                                            startPoint: .leading,
-                                            endPoint: .trailing
+                // MARK: - 2. NỘI DUNG ĐĂNG NHẬP CĂN GIỮA CÂN ĐỐI
+                GeometryReader { proxy in
+                    ScrollView(showsIndicators: false) {
+                        VStack(spacing: 0) {
+                            Spacer(minLength: 40)
+                            
+                            // MARK: - BRAND HEADER (TYPOGRAPHY SIÊU XE)
+                            VStack(spacing: 14) {
+                                // Biểu tượng vệt sáng khí động học siêu xe
+                                HStack(spacing: 10) {
+                                    Rectangle()
+                                        .fill(
+                                            LinearGradient(
+                                                colors: [.clear, Color.cyan],
+                                                startPoint: .leading,
+                                                endPoint: .trailing
+                                            )
                                         )
-                                    )
-                                    .frame(width: 36, height: 2)
+                                        .frame(width: 36, height: 2)
+                                    
+                                    Image(systemName: "shield.righthalf.filled")
+                                        .font(.system(size: 20, weight: .semibold))
+                                        .foregroundStyle(
+                                            LinearGradient(
+                                                colors: [.white, Color.cyan],
+                                                startPoint: .top,
+                                                endPoint: .bottom
+                                            )
+                                        )
+                                        .shadow(color: Color.cyan.opacity(0.6), radius: 8)
+                                    
+                                    Rectangle()
+                                        .fill(
+                                            LinearGradient(
+                                                colors: [Color.cyan, .clear],
+                                                startPoint: .leading,
+                                                endPoint: .trailing
+                                            )
+                                        )
+                                        .frame(width: 36, height: 2)
+                                }
                                 
-                                Image(systemName: "shield.righthalf.filled")
-                                    .font(.system(size: 20, weight: .semibold))
-                                    .foregroundStyle(
-                                        LinearGradient(
-                                            colors: [.white, Color.cyan],
-                                            startPoint: .top,
-                                            endPoint: .bottom
-                                        )
-                                    )
-                                    .shadow(color: Color.cyan.opacity(0.6), radius: 8)
-                                
-                                Rectangle()
-                                    .fill(
-                                        LinearGradient(
-                                            colors: [Color.cyan, .clear],
-                                            startPoint: .leading,
-                                            endPoint: .trailing
-                                        )
-                                    )
-                                    .frame(width: 36, height: 2)
+                                VStack(spacing: 6) {
+                                    Text("M T P R O")
+                                        .font(.system(size: 32, weight: .black, design: .default))
+                                        .tracking(8)
+                                        .foregroundStyle(.white)
+                                        .shadow(color: Color.cyan.opacity(0.35), radius: 12, x: 0, y: 0)
+                                    
+                                    Text("PERFORMANCE GARAGE OS")
+                                        .font(.system(size: 11, weight: .bold))
+                                        .tracking(4)
+                                        .foregroundStyle(Color.white.opacity(0.75))
+                                }
                             }
                             
-                            VStack(spacing: 6) {
-                                Text("M T P R O")
-                                    .font(.system(size: 32, weight: .black, design: .default))
-                                    .tracking(8)
-                                    .foregroundStyle(.white)
-                                    .shadow(color: Color.cyan.opacity(0.35), radius: 12, x: 0, y: 0)
-                                
-                                Text("PERFORMANCE GARAGE OS")
-                                    .font(.system(size: 11, weight: .bold))
-                                    .tracking(4)
-                                    .foregroundStyle(Color.white.opacity(0.75))
-                            }
-                        }
-                        .padding(.top, 12)
-                        
-                        // MARK: - FORM NHẬP LIỆU RÕ NÉT (HIGH-CLARITY DARK GLASS)
-                        VStack(spacing: 22) {
+                            Spacer(minLength: 36)
+                            
+                            // MARK: - FORM NHẬP LIỆU RÕ NÉT (HIGH-CLARITY DARK GLASS)
+                            VStack(spacing: 22) {
                             // Trường Email / Tài khoản
                             VStack(alignment: .leading, spacing: 8) {
                                 Text("TÀI KHOẢN HỆ THỐNG")
@@ -287,10 +289,11 @@ public struct LoginView: View {
                         }
                         .padding(.horizontal, 24)
                         
-                        Spacer(minLength: 24)
+                        Spacer(minLength: 44)
                     }
-                    .padding(.bottom, 24)
+                    .frame(minHeight: proxy.size.height)
                 }
+            }
             }
             .toolbar(.hidden, for: .navigationBar)
             .preferredColorScheme(.dark)
