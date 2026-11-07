@@ -1,8 +1,8 @@
 import SwiftUI
 
 /// Màn hình đăng nhập phong cách Siêu Xe Điện Ảnh (Luxury Dark Cinematic)
-/// Thiết kế lấy cảm hứng từ Porsche, Tesla và Polestar: Nền Obsidian sâu thẳm,
-/// vệt sáng khí động học LED, trường nhập liệu kính tối không khung hộp, tương phản cao.
+/// Cân chỉnh độ sáng & độ tương phản cao (High Contrast & High Clarity):
+/// Các trường nhập liệu rõ ràng, chữ sắc nét, nút bấm nổi bật, dễ đọc và sang trọng.
 public struct LoginView: View {
     @Environment(AppNavigationState.self) private var navigationState: AppNavigationState?
     @State private var viewModel = AuthViewModel()
@@ -18,30 +18,30 @@ public struct LoginView: View {
     public var body: some View {
         NavigationStack {
             ZStack {
-                // MARK: - 1. NỀN ĐIỆN ẢNH ĐEN OBSIDIAN & ÁNH SÁNG LED
+                // MARK: - 1. NỀN ĐIỆN ẢNH MIDNIGHT & DẢI LED
                 CinematicBackgroundView()
                 
                 // MARK: - 2. NỘI DUNG ĐĂNG NHẬP
                 ScrollView(showsIndicators: false) {
-                    VStack(spacing: 36) {
-                        Spacer(minLength: 44)
+                    VStack(spacing: 32) {
+                        Spacer(minLength: 36)
                         
                         // MARK: - BRAND HEADER (TYPOGRAPHY SIÊU XE)
                         VStack(spacing: 14) {
                             // Biểu tượng vệt sáng khí động học siêu xe
-                            HStack(spacing: 8) {
+                            HStack(spacing: 10) {
                                 Rectangle()
                                     .fill(
                                         LinearGradient(
-                                            colors: [.clear, Color.cyan.opacity(0.8)],
+                                            colors: [.clear, Color.cyan],
                                             startPoint: .leading,
                                             endPoint: .trailing
                                         )
                                     )
-                                    .frame(width: 32, height: 1.5)
+                                    .frame(width: 36, height: 2)
                                 
                                 Image(systemName: "shield.righthalf.filled")
-                                    .font(.system(size: 18, weight: .medium))
+                                    .font(.system(size: 20, weight: .semibold))
                                     .foregroundStyle(
                                         LinearGradient(
                                             colors: [.white, Color.cyan],
@@ -49,57 +49,53 @@ public struct LoginView: View {
                                             endPoint: .bottom
                                         )
                                     )
+                                    .shadow(color: Color.cyan.opacity(0.6), radius: 8)
                                 
                                 Rectangle()
                                     .fill(
                                         LinearGradient(
-                                            colors: [Color.cyan.opacity(0.8), .clear],
+                                            colors: [Color.cyan, .clear],
                                             startPoint: .leading,
                                             endPoint: .trailing
                                         )
                                     )
-                                    .frame(width: 32, height: 1.5)
+                                    .frame(width: 36, height: 2)
                             }
                             
                             VStack(spacing: 6) {
                                 Text("M T P R O")
-                                    .font(.system(size: 30, weight: .black, design: .default))
+                                    .font(.system(size: 32, weight: .black, design: .default))
                                     .tracking(8)
-                                    .foregroundStyle(
-                                        LinearGradient(
-                                            colors: [.white, Color(white: 0.82)],
-                                            startPoint: .top,
-                                            endPoint: .bottom
-                                        )
-                                    )
-                                    .shadow(color: Color.white.opacity(0.2), radius: 10, x: 0, y: 0)
+                                    .foregroundStyle(.white)
+                                    .shadow(color: Color.cyan.opacity(0.35), radius: 12, x: 0, y: 0)
                                 
                                 Text("PERFORMANCE GARAGE OS")
-                                    .font(.system(size: 10.5, weight: .semibold))
+                                    .font(.system(size: 11, weight: .bold))
                                     .tracking(4)
-                                    .foregroundStyle(Color.white.opacity(0.4))
+                                    .foregroundStyle(Color.white.opacity(0.75))
                             }
                         }
-                        .padding(.top, 16)
+                        .padding(.top, 12)
                         
-                        // MARK: - FORM NHẬP LIỆU (KÍNH TỐI KHÔNG KHUNG HỘP)
+                        // MARK: - FORM NHẬP LIỆU RÕ NÉT (HIGH-CLARITY DARK GLASS)
                         VStack(spacing: 22) {
                             // Trường Email / Tài khoản
                             VStack(alignment: .leading, spacing: 8) {
                                 Text("TÀI KHOẢN HỆ THỐNG")
-                                    .font(.system(size: 10.5, weight: .semibold))
+                                    .font(.system(size: 11, weight: .bold))
                                     .tracking(1.5)
-                                    .foregroundStyle(Color.white.opacity(0.45))
+                                    .foregroundStyle(Color.white.opacity(0.85))
                                 
                                 HStack(spacing: 14) {
-                                    Image(systemName: "envelope")
-                                        .font(.system(size: 15, weight: .light))
-                                        .foregroundStyle(focusedField == .email ? Color.cyan : Color.white.opacity(0.35))
+                                    Image(systemName: "envelope.fill")
+                                        .font(.system(size: 16))
+                                        .foregroundStyle(focusedField == .email ? Color.cyan : Color.white.opacity(0.7))
                                         .frame(width: 20)
                                     
-                                    TextField("", text: $viewModel.email, prompt: Text("admin@mtpro.vn").foregroundStyle(Color.white.opacity(0.25)))
-                                        .font(.system(size: 15, weight: .regular))
+                                    TextField("", text: $viewModel.email, prompt: Text("admin@mtpro.vn").foregroundStyle(Color.white.opacity(0.45)))
+                                        .font(.system(size: 15, weight: .medium))
                                         .foregroundStyle(.white)
+                                        .tint(.cyan)
                                         .keyboardType(.emailAddress)
                                         .textInputAutocapitalization(.never)
                                         .autocorrectionDisabled(true)
@@ -111,42 +107,43 @@ public struct LoginView: View {
                                 }
                                 .padding(.horizontal, 16)
                                 .padding(.vertical, 15)
-                                .background(Color.white.opacity(0.04))
+                                .background(Color(red: 24/255, green: 32/255, blue: 54/255).opacity(0.75))
                                 .clipShape(RoundedRectangle(cornerRadius: 14, style: .continuous))
                                 .overlay(
                                     RoundedRectangle(cornerRadius: 14, style: .continuous)
                                         .stroke(
                                             focusedField == .email
-                                                ? Color.cyan.opacity(0.8)
-                                                : Color.white.opacity(0.08),
-                                            lineWidth: focusedField == .email ? 1.2 : 0.8
+                                                ? Color.cyan
+                                                : Color.white.opacity(0.18),
+                                            lineWidth: focusedField == .email ? 1.5 : 1
                                         )
                                 )
-                                .shadow(color: focusedField == .email ? Color.cyan.opacity(0.15) : .clear, radius: 8)
+                                .shadow(color: focusedField == .email ? Color.cyan.opacity(0.25) : Color.black.opacity(0.2), radius: 8)
                             }
                             
                             // Trường Mật khẩu
                             VStack(alignment: .leading, spacing: 8) {
                                 Text("MẬT KHẨU")
-                                    .font(.system(size: 10.5, weight: .semibold))
+                                    .font(.system(size: 11, weight: .bold))
                                     .tracking(1.5)
-                                    .foregroundStyle(Color.white.opacity(0.45))
+                                    .foregroundStyle(Color.white.opacity(0.85))
                                 
                                 HStack(spacing: 14) {
-                                    Image(systemName: "lock")
-                                        .font(.system(size: 15, weight: .light))
-                                        .foregroundStyle(focusedField == .password ? Color.cyan : Color.white.opacity(0.35))
+                                    Image(systemName: "lock.fill")
+                                        .font(.system(size: 16))
+                                        .foregroundStyle(focusedField == .password ? Color.cyan : Color.white.opacity(0.7))
                                         .frame(width: 20)
                                     
                                     Group {
                                         if viewModel.isPasswordVisible {
-                                            TextField("", text: $viewModel.password, prompt: Text("Nhập mật khẩu").foregroundStyle(Color.white.opacity(0.25)))
+                                            TextField("", text: $viewModel.password, prompt: Text("Nhập mật khẩu").foregroundStyle(Color.white.opacity(0.45)))
                                         } else {
-                                            SecureField("", text: $viewModel.password, prompt: Text("Nhập mật khẩu").foregroundStyle(Color.white.opacity(0.25)))
+                                            SecureField("", text: $viewModel.password, prompt: Text("Nhập mật khẩu").foregroundStyle(Color.white.opacity(0.45)))
                                         }
                                     }
-                                    .font(.system(size: 15, weight: .regular))
+                                    .font(.system(size: 15, weight: .medium))
                                     .foregroundStyle(.white)
+                                    .tint(.cyan)
                                     .textInputAutocapitalization(.never)
                                     .autocorrectionDisabled(true)
                                     .focused($focusedField, equals: .password)
@@ -158,25 +155,25 @@ public struct LoginView: View {
                                     Button {
                                         viewModel.isPasswordVisible.toggle()
                                     } label: {
-                                        Image(systemName: viewModel.isPasswordVisible ? "eye.slash" : "eye")
-                                            .font(.system(size: 14, weight: .light))
-                                            .foregroundStyle(Color.white.opacity(0.4))
+                                        Image(systemName: viewModel.isPasswordVisible ? "eye.slash.fill" : "eye.fill")
+                                            .font(.system(size: 15))
+                                            .foregroundStyle(Color.white.opacity(0.75))
                                     }
                                 }
                                 .padding(.horizontal, 16)
                                 .padding(.vertical, 15)
-                                .background(Color.white.opacity(0.04))
+                                .background(Color(red: 24/255, green: 32/255, blue: 54/255).opacity(0.75))
                                 .clipShape(RoundedRectangle(cornerRadius: 14, style: .continuous))
                                 .overlay(
                                     RoundedRectangle(cornerRadius: 14, style: .continuous)
                                         .stroke(
                                             focusedField == .password
-                                                ? Color.cyan.opacity(0.8)
-                                                : Color.white.opacity(0.08),
-                                            lineWidth: focusedField == .password ? 1.2 : 0.8
+                                                ? Color.cyan
+                                                : Color.white.opacity(0.18),
+                                            lineWidth: focusedField == .password ? 1.5 : 1
                                         )
                                 )
-                                .shadow(color: focusedField == .password ? Color.cyan.opacity(0.15) : .clear, radius: 8)
+                                .shadow(color: focusedField == .password ? Color.cyan.opacity(0.25) : Color.black.opacity(0.2), radius: 8)
                             }
                             
                             // Ghi nhớ & Quên mật khẩu
@@ -186,12 +183,12 @@ public struct LoginView: View {
                                 } label: {
                                     HStack(spacing: 8) {
                                         Image(systemName: viewModel.rememberMe ? "checkmark.circle.fill" : "circle")
-                                            .font(.system(size: 14, weight: .light))
-                                            .foregroundStyle(viewModel.rememberMe ? Color.cyan : Color.white.opacity(0.3))
+                                            .font(.system(size: 15))
+                                            .foregroundStyle(viewModel.rememberMe ? Color.cyan : Color.white.opacity(0.45))
                                         
                                         Text("Ghi nhớ phiên đăng nhập")
-                                            .font(.system(size: 12.5))
-                                            .foregroundStyle(Color.white.opacity(0.6))
+                                            .font(.system(size: 13, weight: .medium))
+                                            .foregroundStyle(Color.white.opacity(0.85))
                                     }
                                 }
                                 .buttonStyle(.plain)
@@ -202,8 +199,8 @@ public struct LoginView: View {
                                     // Action khôi phục mật khẩu
                                 } label: {
                                     Text("Quên mật khẩu?")
-                                        .font(.system(size: 12.5, weight: .medium))
-                                        .foregroundStyle(Color.white.opacity(0.45))
+                                        .font(.system(size: 13, weight: .semibold))
+                                        .foregroundStyle(Color.cyan)
                                 }
                                 .buttonStyle(.plain)
                             }
@@ -213,23 +210,23 @@ public struct LoginView: View {
                             if let error = viewModel.errorMessage {
                                 HStack(spacing: 10) {
                                     Image(systemName: "exclamationmark.octagon.fill")
-                                        .font(.system(size: 14))
-                                        .foregroundStyle(Color(red: 255/255, green: 80/255, blue: 80/255))
+                                        .font(.system(size: 15))
+                                        .foregroundStyle(Color(red: 255/255, green: 90/255, blue: 90/255))
                                     Text(error)
-                                        .font(.system(size: 12.5))
-                                        .foregroundStyle(Color(red: 255/255, green: 200/255, blue: 200/255))
+                                        .font(.system(size: 13, weight: .medium))
+                                        .foregroundStyle(Color(red: 255/255, green: 220/255, blue: 220/255))
                                     Spacer()
                                 }
                                 .padding(12)
-                                .background(Color(red: 255/255, green: 50/255, blue: 50/255).opacity(0.12))
+                                .background(Color(red: 255/255, green: 50/255, blue: 50/255).opacity(0.2))
                                 .clipShape(RoundedRectangle(cornerRadius: 10))
                                 .overlay(
                                     RoundedRectangle(cornerRadius: 10)
-                                        .stroke(Color.red.opacity(0.3), lineWidth: 0.8)
+                                        .stroke(Color.red.opacity(0.4), lineWidth: 1)
                                 )
                             }
                             
-                            // MARK: - NÚT ĐĂNG NHẬP TƯƠNG PHẢN CAO (HIGH-CONTRAST PORSCHE CTA)
+                            // MARK: - NÚT ĐĂNG NHẬP NỔI BẬT (ELECTRIC BLUE GRADIENT CTA)
                             HStack(spacing: 12) {
                                 Button {
                                     handleLogin()
@@ -237,27 +234,35 @@ public struct LoginView: View {
                                     HStack(spacing: 10) {
                                         if viewModel.isLoading {
                                             ProgressView()
-                                                .tint(.black)
+                                                .tint(.white)
                                         } else {
                                             Text("ĐĂNG NHẬP")
                                                 .font(.system(size: 14, weight: .bold))
-                                                .tracking(2.5)
-                                                .foregroundStyle(.black)
+                                                .tracking(2)
+                                                .foregroundStyle(.white)
                                             
                                             Image(systemName: "arrow.right")
                                                 .font(.system(size: 13, weight: .bold))
-                                                .foregroundStyle(.black)
+                                                .foregroundStyle(.white)
                                         }
                                     }
                                     .frame(maxWidth: .infinity)
                                     .padding(.vertical, 16)
                                     .background(
-                                        viewModel.isFormValid
-                                            ? Color.white
-                                            : Color.white.opacity(0.3)
+                                        LinearGradient(
+                                            colors: viewModel.isFormValid
+                                                ? [Color(red: 0/255, green: 130/255, blue: 255/255), Color(red: 0/255, green: 90/255, blue: 230/255)]
+                                                : [Color(red: 0/255, green: 130/255, blue: 255/255).opacity(0.45), Color(red: 0/255, green: 90/255, blue: 230/255).opacity(0.45)],
+                                            startPoint: .leading,
+                                            endPoint: .trailing
+                                        )
                                     )
                                     .clipShape(RoundedRectangle(cornerRadius: 14, style: .continuous))
-                                    .shadow(color: viewModel.isFormValid ? Color.white.opacity(0.25) : .clear, radius: 14, x: 0, y: 0)
+                                    .overlay(
+                                        RoundedRectangle(cornerRadius: 14, style: .continuous)
+                                            .stroke(Color.white.opacity(viewModel.isFormValid ? 0.35 : 0.1), lineWidth: 1)
+                                    )
+                                    .shadow(color: viewModel.isFormValid ? Color(red: 0/255, green: 120/255, blue: 255/255).opacity(0.45) : .clear, radius: 12, x: 0, y: 4)
                                 }
                                 .disabled(viewModel.isLoading || !viewModel.isFormValid)
                                 
@@ -266,37 +271,37 @@ public struct LoginView: View {
                                     // Xác thực sinh trắc học Face ID
                                 } label: {
                                     Image(systemName: "faceid")
-                                        .font(.system(size: 20, weight: .light))
-                                        .foregroundStyle(Color.white.opacity(0.75))
+                                        .font(.system(size: 22, weight: .regular))
+                                        .foregroundStyle(Color.cyan)
                                         .frame(width: 52, height: 52)
-                                        .background(Color.white.opacity(0.05))
+                                        .background(Color(red: 24/255, green: 32/255, blue: 54/255).opacity(0.75))
                                         .clipShape(RoundedRectangle(cornerRadius: 14, style: .continuous))
                                         .overlay(
                                             RoundedRectangle(cornerRadius: 14, style: .continuous)
-                                                .stroke(Color.white.opacity(0.12), lineWidth: 0.8)
+                                                .stroke(Color.white.opacity(0.2), lineWidth: 1)
                                         )
                                 }
                                 .buttonStyle(.plain)
                             }
-                            .padding(.top, 10)
+                            .padding(.top, 8)
                         }
                         .padding(.horizontal, 24)
                         
-                        Spacer(minLength: 40)
+                        Spacer(minLength: 36)
                         
-                        // MARK: - FOOTER TỐI GIẢN CHUẨN XUẤT XƯỞNG
+                        // MARK: - FOOTER RÕ RÀNG
                         VStack(spacing: 6) {
                             Text("MTPRO AUTOMOTIVE • GARAGE WORKSPACE")
-                                .font(.system(size: 9.5, weight: .medium))
-                                .tracking(2.5)
-                                .foregroundStyle(Color.white.opacity(0.25))
+                                .font(.system(size: 10, weight: .bold))
+                                .tracking(2)
+                                .foregroundStyle(Color.white.opacity(0.55))
                             
-                            Text("VERSION 1.0 • ENCRYPTED SESSION")
-                                .font(.system(size: 8.5))
-                                .tracking(1.8)
-                                .foregroundStyle(Color.white.opacity(0.15))
+                            Text("PHIÊN BẢN 1.0.0 • BẢO MẬT BỞI SSL")
+                                .font(.system(size: 9, weight: .medium))
+                                .tracking(1.5)
+                                .foregroundStyle(Color.white.opacity(0.35))
                         }
-                        .padding(.bottom, 24)
+                        .padding(.bottom, 20)
                     }
                 }
             }

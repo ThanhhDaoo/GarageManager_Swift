@@ -1,8 +1,8 @@
 import SwiftUI
 
 /// Nền động điện ảnh cao cấp (Cinematic Luxury Dark)
-/// Phong cách siêu xe (Porsche / Tesla / Polestar): Nền đen Obsidian sâu,
-/// hiệu ứng vệt sáng đèn LED khí động học uốn lượn và ánh sáng kim loại sang trọng.
+/// Độ sáng & tương phản được cân chỉnh hoàn hảo: Nền xanh Midnight Obsidian,
+/// vệt sáng khí động học LED neon rực rỡ, không bị tối đen làm mờ nội dung.
 public struct CinematicBackgroundView: View {
     @State private var phase: CGFloat = 0
     @State private var beamPulse: Bool = false
@@ -14,107 +14,93 @@ public struct CinematicBackgroundView: View {
             let size = proxy.size
             
             ZStack {
-                // 1. Nền đen sâu Obsidian đa tầng
+                // 1. Nền chuyển sắc Midnight Navy sâu thẳm, có chiều sâu ánh sáng
                 LinearGradient(
                     stops: [
-                        .init(color: Color(red: 5/255, green: 7/255, blue: 11/255), location: 0.0),
-                        .init(color: Color(red: 11/255, green: 14/255, blue: 22/255), location: 0.45),
-                        .init(color: Color(red: 6/255, green: 8/255, blue: 12/255), location: 1.0)
+                        .init(color: Color(red: 14/255, green: 20/255, blue: 36/255), location: 0.0),
+                        .init(color: Color(red: 20/255, green: 28/255, blue: 48/255), location: 0.4),
+                        .init(color: Color(red: 12/255, green: 16/255, blue: 28/255), location: 1.0)
                     ],
                     startPoint: .topLeading,
                     endPoint: .bottomTrailing
                 )
                 .ignoresSafeArea()
                 
-                // 2. Ánh sáng sân khấu studio siêu xe từ đỉnh (Overhead Studio Rim Light)
+                // 2. Vầng hào quang ánh sáng trung tâm & đỉnh rực rỡ (Luminous Ambient Aura)
                 RadialGradient(
                     colors: [
-                        Color(red: 30/255, green: 80/255, blue: 200/255).opacity(beamPulse ? 0.28 : 0.16),
-                        Color(red: 15/255, green: 35/255, blue: 90/255).opacity(0.08),
+                        Color(red: 30/255, green: 110/255, blue: 255/255).opacity(beamPulse ? 0.35 : 0.22),
+                        Color(red: 10/255, green: 40/255, blue: 120/255).opacity(0.12),
                         Color.clear
                     ],
                     center: .top,
-                    startRadius: 10,
-                    endRadius: size.height * 0.55
+                    startRadius: 20,
+                    endRadius: size.height * 0.65
                 )
                 .ignoresSafeArea()
                 
-                // 3. Lưới kỹ thuật carbon ma trận chìm siêu thực (Subtle Carbon Grid lines)
-                Canvas { context, canvasSize in
-                    let step: CGFloat = 40
-                    var path = Path()
-                    
-                    // Kẻ các đường ngang mảnh với độ mờ cực thấp
-                    var y: CGFloat = 0
-                    while y < canvasSize.height {
-                        path.move(to: CGPoint(x: 0, y: y))
-                        path.addLine(to: CGPoint(x: canvasSize.width, y: y))
-                        y += step
-                    }
-                    
-                    // Kẻ các đường dọc mảnh
-                    var x: CGFloat = 0
-                    while x < canvasSize.width {
-                        path.move(to: CGPoint(x: x, y: 0))
-                        path.addLine(to: CGPoint(x: x, y: canvasSize.height))
-                        x += step
-                    }
-                    
-                    context.stroke(path, with: .color(Color.white.opacity(0.018)), lineWidth: 0.5)
-                }
+                // Quầng sáng ấm bổ trợ phía sau form giúp các trường nhập liệu nổi bật rõ ràng
+                RadialGradient(
+                    colors: [
+                        Color(red: 0/255, green: 140/255, blue: 255/255).opacity(0.15),
+                        Color.clear
+                    ],
+                    center: .center,
+                    startRadius: 10,
+                    endRadius: size.width * 0.7
+                )
                 .ignoresSafeArea()
                 
-                // 4. Vệt sáng LED khí động học uốn lượn (Aerodynamic LED Horizon Curve)
+                // 3. Vệt sáng LED khí động học uốn lượn (Aerodynamic LED Horizon Curve)
                 Path { path in
-                    path.move(to: CGPoint(x: -size.width * 0.2, y: size.height * 0.28))
+                    path.move(to: CGPoint(x: -size.width * 0.2, y: size.height * 0.25))
                     path.addCurve(
-                        to: CGPoint(x: size.width * 1.2, y: size.height * 0.24),
-                        control1: CGPoint(x: size.width * 0.35, y: size.height * 0.32),
-                        control2: CGPoint(x: size.width * 0.75, y: size.height * 0.20)
+                        to: CGPoint(x: size.width * 1.2, y: size.height * 0.21),
+                        control1: CGPoint(x: size.width * 0.35, y: size.height * 0.29),
+                        control2: CGPoint(x: size.width * 0.75, y: size.height * 0.17)
                     )
                 }
                 .stroke(
                     LinearGradient(
                         stops: [
                             .init(color: .clear, location: 0.0),
-                            .init(color: Color(red: 40/255, green: 140/255, blue: 255/255).opacity(0.1), location: 0.2),
-                            .init(color: Color.white.opacity(beamPulse ? 0.45 : 0.2), location: 0.5),
-                            .init(color: Color(red: 40/255, green: 140/255, blue: 255/255).opacity(0.25), location: 0.7),
+                            .init(color: Color.cyan.opacity(0.2), location: 0.2),
+                            .init(color: Color.white.opacity(beamPulse ? 0.8 : 0.45), location: 0.5),
+                            .init(color: Color.cyan.opacity(0.4), location: 0.7),
                             .init(color: .clear, location: 1.0)
                         ],
                         startPoint: .leading,
                         endPoint: .trailing
                     ),
-                    lineWidth: 1.5
+                    lineWidth: 2
                 )
-                .blur(radius: 0.5)
                 .offset(y: beamPulse ? -6 : 6)
                 
                 // Glow lan toả của dải LED
                 Path { path in
-                    path.move(to: CGPoint(x: -size.width * 0.2, y: size.height * 0.28))
+                    path.move(to: CGPoint(x: -size.width * 0.2, y: size.height * 0.25))
                     path.addCurve(
-                        to: CGPoint(x: size.width * 1.2, y: size.height * 0.24),
-                        control1: CGPoint(x: size.width * 0.35, y: size.height * 0.32),
-                        control2: CGPoint(x: size.width * 0.75, y: size.height * 0.20)
+                        to: CGPoint(x: size.width * 1.2, y: size.height * 0.21),
+                        control1: CGPoint(x: size.width * 0.35, y: size.height * 0.29),
+                        control2: CGPoint(x: size.width * 0.75, y: size.height * 0.17)
                     )
                 }
                 .stroke(
-                    Color(red: 30/255, green: 120/255, blue: 255/255).opacity(beamPulse ? 0.3 : 0.12),
-                    lineWidth: 18
+                    Color(red: 0/255, green: 160/255, blue: 255/255).opacity(beamPulse ? 0.4 : 0.2),
+                    lineWidth: 20
                 )
-                .blur(radius: 14)
+                .blur(radius: 12)
                 .offset(y: beamPulse ? -6 : 6)
                 
-                // 5. Luồng ánh sáng kim loại quét ngang chậm rãi (Metallic Sheen Sweep)
+                // 4. Vệt quét ánh kim (Metallic Sheen Sweep)
                 Rectangle()
                     .fill(
                         LinearGradient(
                             stops: [
                                 .init(color: .clear, location: 0.0),
-                                .init(color: Color.white.opacity(0.03), location: 0.45),
-                                .init(color: Color.cyan.opacity(0.04), location: 0.5),
-                                .init(color: Color.white.opacity(0.02), location: 0.55),
+                                .init(color: Color.white.opacity(0.05), location: 0.48),
+                                .init(color: Color.cyan.opacity(0.08), location: 0.5),
+                                .init(color: Color.white.opacity(0.04), location: 0.52),
                                 .init(color: .clear, location: 1.0)
                             ],
                             startPoint: .topLeading,
@@ -125,18 +111,6 @@ public struct CinematicBackgroundView: View {
                     .scaleEffect(1.6)
                     .offset(x: phase)
                     .ignoresSafeArea()
-                
-                // 6. Vignette làm tối 4 góc màn hình tăng độ tập trung điện ảnh
-                RadialGradient(
-                    colors: [
-                        Color.clear,
-                        Color.black.opacity(0.65)
-                    ],
-                    center: .center,
-                    startRadius: size.width * 0.5,
-                    endRadius: size.height * 0.8
-                )
-                .ignoresSafeArea()
             }
         }
         .ignoresSafeArea()
